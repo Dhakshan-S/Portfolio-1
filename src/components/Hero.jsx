@@ -1,0 +1,145 @@
+import React from 'react';
+import {
+  ShieldCheck,
+  Download,
+  Mail,
+  Phone,
+  MapPin,
+  CheckCircle2,
+  ArrowRight
+} from 'lucide-react';
+import LinkedinIcon from './LinkedinIcon';
+import DraggableIdCard from './DraggableIdCard';
+import { personalDetails } from '../data/portfolioData';
+
+export default function Hero({ onOpenResume }) {
+
+  return (
+    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      {/* Glow Effects in Background */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-teal-500/15 via-cyan-500/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+      <div className="absolute top-20 right-10 w-72 h-72 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Column - Main Info */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            
+            {/* Status pill */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-teal-950/80 border border-teal-500/30 text-teal-300 text-xs font-mono shadow-inner shadow-teal-900/50">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span className="font-semibold tracking-wide">AVAILABLE FOR QA & SOFTWARE TESTING ROLES</span>
+            </div>
+
+            {/* Main Headline */}
+            <div className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+                Hi, I'm <span className="text-gradient">{personalDetails.name}</span>
+              </h1>
+              <p className="text-2xl sm:text-3xl font-bold text-slate-300 flex items-center gap-3">
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-300 to-sky-300">
+                  {personalDetails.title}
+                </span>
+              </p>
+            </div>
+
+            {/* Tagline */}
+            <p className="text-slate-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
+              "{personalDetails.tagline}"
+            </p>
+
+            {/* Location & Quick Context Badge */}
+            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400 pt-1">
+              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
+                <MapPin className="w-3.5 h-3.5 text-teal-400" />
+                <span>{personalDetails.location}</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>1+ Year Experience</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
+                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                <span>25+ Web & Mobile Projects</span>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="pt-4 flex flex-wrap items-center gap-4">
+              <button
+                onClick={onOpenResume}
+                className="group relative px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-950 bg-gradient-to-r from-teal-400 via-cyan-400 to-sky-400 hover:from-teal-300 hover:to-cyan-300 shadow-lg shadow-teal-500/25 transition-all duration-300 hover:scale-[1.02] flex items-center gap-2.5"
+              >
+                <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                <span>Download Resume</span>
+              </button>
+
+              <a
+                href="#contact"
+                className="px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-200 glass-card hover:bg-slate-800/80 hover:text-white border border-slate-700/80 transition-all flex items-center gap-2 group"
+              >
+                <Mail className="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform" />
+                <span>Contact Me</span>
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+              </a>
+            </div>
+
+            {/* Social / Contact Links */}
+            <div className="pt-6 border-t border-slate-800/80 flex items-center gap-4">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Connect:</span>
+              <div className="flex items-center gap-3">
+                <a
+                  href={personalDetails.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="p-2.5 rounded-xl glass-card text-slate-300 hover:text-teal-400 hover:border-teal-500/40 transition-all"
+                  aria-label="LinkedIn Profile"
+                >
+                  <LinkedinIcon className="w-4 h-4" />
+                </a>
+                <a
+                  href={`mailto:${personalDetails.email}`}
+                  className="p-2.5 rounded-xl glass-card text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-all"
+                  aria-label="Send Email"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+                <a
+                  href={`tel:${personalDetails.phone}`}
+                  className="p-2.5 rounded-xl glass-card text-slate-300 hover:text-emerald-400 hover:border-emerald-500/40 transition-all"
+                  aria-label="Call Phone"
+                >
+                  <Phone className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Right Column - Interactive 3D Draggable ID Card */}
+          <div className="lg:col-span-5 relative flex justify-center items-center">
+            <div className="w-full flex justify-center relative">
+              <DraggableIdCard />
+              
+              {/* Floating QA Tag Accent */}
+              <div className="absolute -bottom-2 -left-4 glass-card px-3.5 py-2 rounded-xl border border-cyan-500/30 flex items-center gap-2.5 shadow-xl hidden sm:flex pointer-events-none z-30">
+                <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                </div>
+                <div className="text-left">
+                  <div className="text-[10px] font-mono text-slate-400">Identity Status</div>
+                  <div className="text-xs font-bold text-white">Verified QA Analyst</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
