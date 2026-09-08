@@ -1,184 +1,528 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
+  ChevronLeft,
+  ChevronRight,
   ShieldCheck,
   Globe,
   Terminal,
   Bug,
+  Database,
   Briefcase,
+  RotateCw,
   Cpu,
-  Search,
-  CheckCircle2,
-  SlidersHorizontal,
-  Code
+  Crown,
 } from 'lucide-react';
-import { skillCategories } from '../data/portfolioData';
+
+// Authentic Vector Icons for Tools & Technologies
+function ToolIcon({ type, className = "w-3.5 h-3.5" }) {
+  switch (type) {
+    case 'jira':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <path d="M11.53 2c0 5.26 4.26 9.53 9.53H22V2h-10.47z" fill="#0052CC" />
+          <path d="M2 11.53c5.26 0 9.53 4.26 9.53 9.53V22H2v-10.47z" fill="#2684FF" />
+        </svg>
+      );
+    case 'excel':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="4" fill="#107C41" />
+          <path d="M7 6.5h3.2l2.3 4.2 2.3-4.2H18l-3.8 6 3.9 6.5h-3.2l-2.4-4.5-2.4 4.5H7l4-6.5L7 6.5z" fill="white" />
+        </svg>
+      );
+    case 'postman':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#FF6C37" />
+          <path d="M7.5 12a4.5 4.5 0 017.5-3.35l1.65-1.65A6.8 6.8 0 0012 5.2a6.8 6.8 0 00-6.8 6.8c0 2.2.9 4.2 2.3 5.6l1.6-1.6A4.5 4.5 0 017.5 12z" fill="white" />
+          <circle cx="14.5" cy="12.5" r="2.5" fill="white" />
+        </svg>
+      );
+    case 'swagger':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#85EA2D" />
+          <path d="M9 8c-1.5 0-2 1-2 2.5v1c0 1-.5 1.5-1.5 1.5 1 0 1.5.5 1.5 1.5v1c0 1.5.5 2.5 2 2.5m6-10c1.5 0 2 1 2 2.5v1c0 1 .5 1.5 1.5 1.5-1 0-1.5.5-1.5 1.5v1c0 1.5-.5 2.5-2 2.5" stroke="#173647" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+    case 'playwright':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <path d="M7 5c-2.5 0-4.5 2-4.5 4.5v4c0 3.5 2.8 6.5 6.5 6.5h1a5 5 0 005-5V9.5C15 7 13 5 10.5 5H7z" fill="#2EAD33" />
+          <path d="M17 5c2.5 0 4.5 2 4.5 4.5v4c0 3.5-2.8 6.5-6.5 6.5h-1a5 5 0 01-5-5V9.5C9 7 11 5 13.5 5H17z" fill="#E23237" fillOpacity="0.9" />
+          <circle cx="7" cy="11" r="1.5" fill="white" />
+          <circle cx="17" cy="11" r="1.5" fill="white" />
+        </svg>
+      );
+    case 'selenium':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="5" fill="#00B400" />
+          <text x="12" y="16.5" textAnchor="middle" fill="white" fontSize="11" fontWeight="bold" fontFamily="system-ui, sans-serif">Se</text>
+        </svg>
+      );
+    case 'testng':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#1E2229" stroke="#EF233C" strokeWidth="1.5" />
+          <path d="M6.5 7.5h11v3.2h-3.8v7h-3.4v-7H6.5V7.5z" fill="#EF233C" />
+        </svg>
+      );
+    case 'xpath':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <rect width="24" height="24" rx="5" fill="#6366F1" />
+          <path d="M7.5 15l-3-3 3-3M16.5 9l3 3-3 3M13.5 6.5l-3 11" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      );
+    case 'oracle':
+    case 'mysql':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#EA1B22" />
+          <path d="M7 12a5 5 0 0110 0 5 5 0 01-10 0z" stroke="white" strokeWidth="2.5" />
+        </svg>
+      );
+    case 'postgresql':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#336791" />
+          <path d="M8 8c3-2 6-1 8 1 2 2 2 5-1 7-1 1-3 1-5 0l-2-2" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+          <circle cx="11" cy="9.5" r="1.2" fill="#F39C12" />
+        </svg>
+      );
+    case 'java':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="#EA2D2E" />
+          <path d="M8 15.5s1 1.5 4 1.5 4-1.5 4-1.5M9 13s1 1 3 1 3-1 3-1M11 6c0 1.5-1.5 2.5-1.5 4M13.5 5.5c0 1.5-1.5 2.5-1.5 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+// Exactly 8 QA Skill Slides ordered as requested:
+// Left: [1. Automation Testing, 2. AI Tools, 3. SQL Database]
+// Center (4th Slide): [4. Manual Testing] (Default active on load)
+// Right: [5. API Testing, 6. Business Analysis, 7. Agile, 8. Defect Management]
+const skillCards = [
+    {
+    id: 'sql-database',
+    title: 'SQL Database',
+    level: 'Intermediate',
+    levelBadge: 'bg-[#F59E0B] text-slate-950 font-bold',
+    icon: Database,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-amber-400 to-orange-500',
+      activeBorder: 'border-amber-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(245,158,11,0.4)]',
+      cardBg: 'from-amber-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Joins, Sub Query, Normalization, DDL/DML, TCL, DCL, DQL.',
+    tools: [
+      { name: 'Oracle SQL', icon: 'oracle' },
+      { name: 'PostgreSQL', icon: 'postgresql' },
+    ],
+  },
+  {
+    id: 'ai-tools',
+    title: 'AI Tools',
+    level: 'Advanced',
+    levelBadge: 'bg-[#14B8A6] text-slate-950 font-bold',
+    icon: Cpu,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-teal-400 to-cyan-600',
+      activeBorder: 'border-teal-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(20,184,166,0.4)]',
+      cardBg: 'from-teal-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'AI-assisted Test Case Generation, Prompt-based Test Automation, Test Scenario Generation.',
+    tools: [
+      { name: 'AI Prompts', icon: 'cpu' },
+    ],
+  },
+  {
+    id: 'automation-testing',
+    title: 'Automation Testing',
+    level: 'Intermediate',
+    levelBadge: 'bg-[#8B5CF6] text-white',
+    icon: Terminal,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-purple-500 via-indigo-500 to-violet-600',
+      activeBorder: 'border-purple-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(168,85,247,0.4)]',
+      cardBg: 'from-purple-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Playwright (AI-assisted), Selenium WebDriver, TestNG, XPath, Page Object Model, Core Java (Fundamentals).',
+    tools: [
+      { name: 'Playwright', icon: 'playwright' },
+      { name: 'Selenium', icon: 'selenium' },
+      { name: 'TestNG', icon: 'testng' },
+      { name: 'XPath', icon: 'xpath' },
+      { name: 'Java', icon: 'java' },
+    ],
+  },
+  {
+    id: 'manual-testing',
+    title: 'Manual Testing',
+    level: 'Advanced',
+    levelBadge: 'bg-[#10B981] text-white',
+    icon: ShieldCheck,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-emerald-400 to-teal-600',
+      activeBorder: 'border-emerald-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(16,185,129,0.4)]',
+      cardBg: 'from-emerald-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'SDLC, STLC, Functional, Integration, System, Regression, Smoke, Adhoc, Bug Life Cycle, Test Cases, Test Scenarios, Severity, Priority.',
+    tools: [
+      { name: 'JIRA', icon: 'jira' },
+      { name: 'Excel', icon: 'excel' },
+    ],
+  },
+  {
+    id: 'api-testing',
+    title: 'API Testing',
+    level: 'Intermediate',
+    levelBadge: 'bg-[#38BDF8] text-slate-950 font-bold',
+    icon: Globe,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-sky-400 to-blue-600',
+      activeBorder: 'border-sky-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(14,165,233,0.4)]',
+      cardBg: 'from-sky-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Postman, API Validation, Request & Response Testing, Status Code Validation.',
+    tools: [
+      { name: 'Postman', icon: 'postman' },
+      { name: 'Swagger', icon: 'swagger' },
+    ],
+  },
+  {
+    id: 'business-analysis',
+    title: 'Business Analysis',
+    level: 'Advanced',
+    levelBadge: 'bg-[#3B82F6] text-white',
+    icon: Briefcase,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-blue-500 to-indigo-600',
+      activeBorder: 'border-blue-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(59,130,246,0.4)]',
+      cardBg: 'from-blue-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Requirement Gathering, Requirement Analysis, Client Communication, User Story Understanding.',
+    tools: [
+      { name: 'JIRA', icon: 'jira' },
+    ],
+  },
+  {
+    id: 'agile',
+    title: 'Agile',
+    level: 'Intermediate',
+    levelBadge: 'bg-[#C084FC] text-slate-950 font-bold',
+    icon: RotateCw,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-fuchsia-500 to-purple-600',
+      activeBorder: 'border-fuchsia-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(217,70,239,0.4)]',
+      cardBg: 'from-fuchsia-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Sprint Planning, Daily Scrum, Sprint Review, Retrospective.',
+    tools: [
+      { name: 'JIRA', icon: 'jira' },
+    ],
+  },
+  {
+    id: 'defect-management',
+    title: 'Defect Management',
+    level: 'Advanced',
+    levelBadge: 'bg-[#F43F5E] text-white',
+    icon: Bug,
+    theme: {
+      circleBg: 'bg-gradient-to-br from-rose-500 to-red-600',
+      activeBorder: 'border-rose-500/80',
+      activeGlow: 'shadow-[0_0_35px_-5px_rgba(244,63,94,0.4)]',
+      cardBg: 'from-rose-950/25 to-slate-900/95',
+    },
+    subtitles:
+      'Bug Reporting, Bug Tracking using Excel, Defect Analysis, Retesting.',
+    tools: [
+      { name: 'JIRA', icon: 'jira' },
+      { name: 'Excel', icon: 'excel' },
+    ],
+  },
+];
+
+// All Tools for the bottom horizontal dock
+const allDockTools = [
+  { name: 'JIRA', icon: 'jira' },
+  { name: 'Excel', icon: 'excel' },
+  { name: 'Postman', icon: 'postman' },
+  { name: 'Swagger', icon: 'swagger' },
+  { name: 'Playwright', icon: 'playwright' },
+  { name: 'Selenium', icon: 'selenium' },
+  { name: 'TestNG', icon: 'testng' },
+  { name: 'XPath', icon: 'xpath' },
+  { name: 'Oracle SQL', icon: 'oracle' },
+  { name: 'PostgreSQL', icon: 'postgresql' },
+  { name: 'Java', icon: 'java' },
+];
 
 export default function Skills() {
-  const [activeTab, setActiveTab] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  // 4th slide is Manual Testing (index 3). Default active on load so it sits dead-center!
+  const [activeIndex, setActiveIndex] = useState(3);
+  const [cardWidth, setCardWidth] = useState(290);
+  const cardGap = 16;
 
-  const getIcon = (iconName) => {
-    switch (iconName) {
-      case 'ShieldCheck': return ShieldCheck;
-      case 'Globe': return Globe;
-      case 'Terminal': return Terminal;
-      case 'Bug': return Bug;
-      case 'Briefcase': return Briefcase;
-      case 'Cpu': return Cpu;
-      default: return Code;
-    }
+  // Touch swipe support
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  // Responsive card width calculation with uniform dimensions across all slides
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setCardWidth(270);
+      } else if (window.innerWidth < 1024) {
+        setCardWidth(285);
+      } else {
+        setCardWidth(295);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Infinite looping prev / next handlers
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : skillCards.length - 1));
   };
 
-  const filteredCategories = skillCategories.map(cat => {
-    if (activeTab !== 'all' && cat.id !== activeTab) {
-      return null;
-    }
-    const matchingSkills = cat.skills.filter(s =>
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.desc.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    if (matchingSkills.length === 0) return null;
-    return { ...cat, skills: matchingSkills };
-  }).filter(Boolean);
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % skillCards.length);
+  };
+
+  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    if (distance > 50) handleNext();
+    if (distance < -50) handlePrev();
+    setTouchStart(null);
+    setTouchEnd(null);
+  };
 
   return (
-    <section id="skills" className="py-20 relative">
-      {/* Background radial glow */}
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
+    <section id="skills" className="py-16 sm:py-20 relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-cyan-500/10 via-purple-500/10 to-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-800/80 text-cyan-300 text-xs font-mono">
-            <Terminal className="w-3.5 h-3.5" />
-            <span>TESTING & QA TECH STACK</span>
+        {/* ========================================================================= */}
+        {/* SECTION HEADER                                                            */}
+        {/* ========================================================================= */}
+        <div className="relative text-center max-w-3xl mx-auto mb-10">
+          {/* Eyebrow */}
+          <div className="flex items-center justify-center gap-3 mb-2.5">
+            <span className="h-px w-8 bg-slate-700" />
+            <span className="text-[10px] sm:text-xs font-mono font-bold tracking-[0.25em] text-slate-400 uppercase">
+              MY TECHNICAL SKILLS
+            </span>
+            <span className="h-px w-8 bg-slate-700" />
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Technical Competencies & <span className="text-gradient">QA Toolkit</span>
+
+          {/* Title */}
+          <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
+            QA Engineer{' '}
+            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              Skill Set
+            </span>
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg">
-            Grouped into functional testing domains, automated tooling, database validation, and business analysis.
+
+          {/* Subtitle */}
+          <p className="text-slate-400 text-xs sm:text-sm font-medium tracking-wide">
+            Quality &nbsp;•&nbsp; Automation &nbsp;•&nbsp; Better Software
           </p>
         </div>
 
-        {/* Filter Tabs & Search Bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800">
+        {/* ========================================================================= */}
+        {/* 8-CARD SLIDER: UNIFORM HEIGHT & WIDTH, MANUAL TESTING IN CENTER           */}
+        {/* ========================================================================= */}
+        <div className="relative w-full py-2 mb-6">
           
-          {/* Category Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-4 py-2 rounded-xl text-xs font-medium transition-all ${
-                activeTab === 'all'
-                  ? 'bg-teal-500 text-slate-950 font-bold shadow-md shadow-teal-500/20'
-                  : 'bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800'
-              }`}
+          {/* Left Arrow Button (Infinite loop) */}
+          <button
+            onClick={handlePrev}
+            aria-label="Previous skill"
+            className="absolute left-1 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
+          >
+            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* Right Arrow Button (Infinite loop) */}
+          <button
+            onClick={handleNext}
+            aria-label="Next skill"
+            className="absolute right-1 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
+          >
+            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+          </button>
+
+          {/* Slider Viewport */}
+          <div 
+            className="w-full overflow-hidden py-4 px-2"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Sliding Track: Centers active card (Manual Testing centered by default at index 3) */}
+            <div
+              className="flex items-center transition-transform duration-500 ease-out"
+              style={{
+                gap: `${cardGap}px`,
+                transform: `translateX(calc(50% - ${cardWidth / 2}px - ${activeIndex * (cardWidth + cardGap)}px))`,
+              }}
             >
-              All Domains
-            </button>
-            {skillCategories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setActiveTab(cat.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-medium transition-all flex items-center gap-2 ${
-                  activeTab === cat.id
-                    ? 'bg-teal-500 text-slate-950 font-bold shadow-md shadow-teal-500/20'
-                    : 'bg-slate-900/80 text-slate-400 hover:text-white border border-slate-800'
-                }`}
-              >
-                <span>{cat.label}</span>
-              </button>
-            ))}
+              {skillCards.map((card, idx) => {
+                const isActive = idx === activeIndex;
+                const IconComponent = card.icon;
+
+                return (
+                  <div
+                    key={card.id}
+                    onClick={() => setActiveIndex(idx)}
+                    style={{ width: `${cardWidth}px` }}
+                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 cursor-pointer relative select-none flex flex-col justify-between h-[345px] sm:h-[355px] ${
+                      isActive
+                        ? `bg-gradient-to-b ${card.theme.cardBg} border-2 ${card.theme.activeBorder} ${card.theme.activeGlow} scale-100 sm:scale-[1.03] z-20 opacity-100`
+                        : 'bg-slate-900/70 border border-slate-800/80 backdrop-blur-md scale-95 opacity-55 hover:opacity-85 z-10'
+                    }`}
+                  >
+                    {/* Top Right "👑 My Strongest Skill" badge (Automation card) */}
+                    {card.badge && (
+                      <div className="absolute -top-3 right-4 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/30 to-indigo-500/30 border border-purple-400/60 backdrop-blur-md text-purple-200 text-[10px] font-bold flex items-center gap-1 shadow-md shadow-purple-500/20">
+                        <Crown className="w-3 h-3 text-amber-300 fill-amber-300" />
+                        <span>{card.badge}</span>
+                      </div>
+                    )}
+
+                    {/* TOP SECTION: 1. Centered Icon -> 2. Title -> 3. Level Badge */}
+                    <div className="flex flex-col items-center text-center">
+                      
+                      {/* 1. Circular Icon Medallion */}
+                      <div className={`w-12 h-12 sm:w-13 sm:h-13 rounded-full ${card.theme.circleBg} p-0.5 shadow-lg flex items-center justify-center mb-2.5`}>
+                        <div className="w-full h-full rounded-full flex items-center justify-center bg-black/15">
+                          <IconComponent className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
+
+                      {/* 2. Title */}
+                      <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight mb-1.5 truncate w-full">
+                        {card.title}
+                      </h3>
+
+                      {/* 3. Level Badge */}
+                      <span className={`inline-block px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wide shadow-sm mb-2.5 ${card.levelBadge}`}>
+                        {card.level}
+                      </span>
+
+                      {/* 4. Subtitles (Comma-separated skills text with fixed height for perfect uniformity) */}
+                      <p className="text-xs sm:text-[12.5px] text-slate-300 leading-relaxed font-normal text-center line-clamp-3 h-[52px] sm:h-[56px] flex items-center justify-center px-1">
+                        {card.subtitles}
+                      </p>
+
+                    </div>
+
+                    {/* BOTTOM SECTION: 5. Tools Container (Uniform height & structure across all 8 slides) */}
+                    <div className="mt-3 pt-2.5 border-t border-slate-800/80 bg-slate-950/40 rounded-2xl p-2.5 sm:p-3 h-[78px] flex flex-col justify-center">
+                      <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 font-bold block mb-1.5 text-left">
+                        Tools
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {card.tools.map((tool, tIdx) => (
+                          <div
+                            key={tIdx}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900/90 border border-slate-700/80 text-[11px] font-medium text-slate-200 shadow-sm"
+                          >
+                            <ToolIcon type={tool.icon} className="w-3.5 h-3.5 shrink-0" />
+                            <span>{tool.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
+
           </div>
 
-          {/* Search Box */}
-          <div className="relative w-full md:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              placeholder="Search skill or tool..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-900/90 border border-slate-800 rounded-xl pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-teal-500 transition-colors"
-            />
+          {/* Carousel Pagination Dots (8 dots with smooth indicator) */}
+          <div className="flex items-center justify-center gap-1.5 mt-4">
+            {skillCards.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+                className={`transition-all duration-300 rounded-full ${
+                  idx === activeIndex
+                    ? 'w-6 h-1.5 bg-gradient-to-r from-blue-400 to-purple-500 shadow-sm'
+                    : 'w-1.5 h-1.5 bg-slate-700 hover:bg-slate-500'
+                }`}
+              />
+            ))}
           </div>
 
         </div>
 
-        {/* Skill Category Cards Display */}
-        {filteredCategories.length === 0 ? (
-          <div className="glass-card p-12 text-center rounded-2xl border border-slate-800 space-y-3">
-            <SlidersHorizontal className="w-8 h-8 text-slate-500 mx-auto" />
-            <p className="text-slate-400 text-sm">No skills found matching "{searchQuery}". Try clearing search.</p>
+        {/* ========================================================================= */}
+        {/* BOTTOM DOCK: KEY TOOLS & TECHNOLOGIES                                    */}
+        {/* ========================================================================= */}
+        <div className="mt-8 mb-4">
+          {/* Header Divider */}
+          <div className="flex items-center justify-center gap-4 mb-3.5">
+            <div className="h-px w-16 sm:w-24 bg-gradient-to-r from-transparent to-purple-500/50" />
+            <span className="text-xs font-semibold text-slate-300 tracking-wider">
+              Key Tools &amp; Technologies
+            </span>
+            <div className="h-px w-16 sm:w-24 bg-gradient-to-l from-transparent to-purple-500/50" />
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-            {filteredCategories.map((category) => {
-              const IconComp = getIcon(category.icon);
-              return (
-                <div
-                  key={category.id}
-                  className="glass-card rounded-2xl p-6 border border-slate-800 text-left space-y-5 hover:border-teal-500/30 transition-all flex flex-col justify-between h-full"
-                >
-                  <div>
-                    {/* Category Header */}
-                    <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-teal-950/60 border border-teal-800/60 text-teal-400">
-                          <IconComp className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h3 className="text-base font-bold text-white tracking-wide">
-                            {category.label}
-                          </h3>
-                          <span className="text-[11px] font-mono text-slate-400">
-                            {category.skills.length} verified competencies
-                          </span>
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-400 border border-emerald-800">
-                        [READY]
-                      </span>
-                    </div>
 
-                    {/* Skill Chips List */}
-                    <div className="pt-4 space-y-3">
-                      {category.skills.map((skill, idx) => (
-                        <div
-                          key={idx}
-                          className="p-3 rounded-xl bg-slate-900/70 border border-slate-800/80 hover:border-teal-500/40 hover:bg-slate-900 transition-all group"
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="flex items-center gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-teal-400 shrink-0" />
-                              <span className="text-xs font-semibold text-white group-hover:text-teal-300 transition-colors">
-                                {skill.name}
-                              </span>
-                            </div>
-                            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-800 text-teal-400 border border-slate-700">
-                              {skill.passTag}
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-slate-400 leading-tight pl-5">
-                            {skill.desc}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Footer Tag */}
-                  <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                    <span>STATUS: VALIDATED</span>
-                    <span className="text-teal-400 font-semibold">100% COVERAGE</span>
-                  </div>
-                </div>
-              );
-            })}
+          {/* Floating Pill Bar */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 p-3 sm:p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800/90 shadow-xl backdrop-blur-xl max-w-4xl mx-auto">
+            {allDockTools.map((tool, idx) => (
+              <div
+                key={idx}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-950/70 border border-slate-800 hover:border-slate-600 transition-all text-xs font-medium text-slate-200 shadow-sm"
+              >
+                <ToolIcon type={tool.icon} className="w-3.5 h-3.5 shrink-0" />
+                <span>{tool.name}</span>
+              </div>
+            ))}
           </div>
-        )}
+        </div>
+
+        {/* Tagline */}
+        <div className="flex items-center justify-center gap-3 mt-4 text-xs text-slate-400 font-medium italic select-none">
+          <span className="h-px w-8 bg-slate-800" />
+          <span>
+            Better Tests &nbsp;<span className="text-purple-400 font-bold not-italic">→</span>&nbsp; Better Products &nbsp;<span className="text-purple-400 font-bold not-italic">→</span>&nbsp; Happier Users 💜
+          </span>
+          <span className="h-px w-8 bg-slate-800" />
+        </div>
 
       </div>
     </section>
