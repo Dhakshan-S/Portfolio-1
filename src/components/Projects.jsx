@@ -37,22 +37,22 @@ export default function Projects({ onOpenTestRunner }) {
         </div>
 
         {/* Project Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-start">
           {projectsData.map((project) => {
             const isExpanded = expandedId === project.id;
             return (
               <div
                 key={project.id}
-                className="glass-card rounded-2xl p-6 md:p-8 border border-slate-800 space-y-6 hover:border-teal-500/40 transition-all text-left flex flex-col justify-between h-full group"
+                className="glass-card rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-800 space-y-5 sm:space-y-6 hover:border-teal-500/40 transition-all text-left flex flex-col justify-between h-full group"
               >
                 <div className="space-y-4">
                   
                   {/* Category & Status Header */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-teal-950/80 text-teal-300 border border-teal-800/80 font-semibold">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-teal-950/80 text-teal-300 border border-teal-800/80 font-semibold truncate">
                       {project.category}
                     </span>
-                    <span className="text-xs font-mono text-emerald-400 font-bold flex items-center gap-1.5 bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-900">
+                    <span className="text-xs font-mono text-emerald-400 font-bold flex items-center gap-1.5 bg-emerald-950/50 px-2.5 py-1 rounded border border-emerald-900 shrink-0">
                       <ShieldCheck className="w-3.5 h-3.5" />
                       {project.status}
                     </span>
@@ -60,16 +60,16 @@ export default function Projects({ onOpenTestRunner }) {
 
                   {/* Title & Subtitle */}
                   <div>
-                    <h3 className="text-2xl font-extrabold text-white group-hover:text-teal-300 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-white group-hover:text-teal-300 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-sm font-semibold text-cyan-400 font-mono mt-1">
+                    <p className="text-xs sm:text-sm font-semibold text-cyan-400 font-mono mt-1">
                       {project.subtitle}
                     </p>
                   </div>
 
                   {/* Short Description */}
-                  <p className="text-slate-300 text-sm leading-relaxed">
+                  <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
                     {project.shortDesc}
                   </p>
 

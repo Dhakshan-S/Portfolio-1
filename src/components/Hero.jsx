@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import LinkedinIcon from './LinkedinIcon';
 import DraggableIdCard from './DraggableIdCard';
+import confetti from 'canvas-confetti';
 import { personalDetails } from '../data/portfolioData';
 
 export default function Hero({ onOpenResume }) {
@@ -21,26 +22,26 @@ export default function Hero({ onOpenResume }) {
       <div className="absolute top-20 right-10 w-72 h-72 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
           
           {/* Left Column - Main Info */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
             {/* Status pill */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-teal-950/80 border border-teal-500/30 text-teal-300 text-xs font-mono shadow-inner shadow-teal-900/50">
-              <span className="relative flex h-2.5 w-2.5">
+            <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-teal-950/80 border border-teal-500/30 text-teal-300 text-[11px] sm:text-xs font-mono shadow-inner shadow-teal-900/50 max-w-full">
+              <span className="relative flex h-2.5 w-2.5 shrink-0">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
               </span>
-              <span className="font-semibold tracking-wide">AVAILABLE FOR QA & SOFTWARE TESTING ROLES</span>
+              <span className="font-semibold tracking-wide truncate sm:whitespace-normal">AVAILABLE FOR QA & SOFTWARE TESTING ROLES</span>
             </div>
 
             {/* Main Headline */}
             <div className="space-y-2">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
                 Hi, I'm <span className="text-gradient">{personalDetails.name}</span>
               </h1>
-              <p className="text-2xl sm:text-3xl font-bold text-slate-300 flex items-center gap-3">
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-300 flex items-center gap-3">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-300 to-sky-300">
                   {personalDetails.title}
                 </span>
@@ -48,48 +49,58 @@ export default function Hero({ onOpenResume }) {
             </div>
 
             {/* Tagline */}
-            <p className="text-slate-300 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
+            <p className="text-slate-300 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-2xl">
               "{personalDetails.tagline}"
             </p>
 
             {/* Location & Quick Context Badge */}
-            <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400 pt-1">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-xs font-mono text-slate-400 pt-1">
               <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-                <MapPin className="w-3.5 h-3.5 text-teal-400" />
+                <MapPin className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                 <span>{personalDetails.location}</span>
               </div>
               <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>1+ Year Experience</span>
               </div>
               <div className="flex items-center gap-1.5 bg-slate-900/80 px-3 py-1.5 rounded-lg border border-slate-800">
-                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
                 <span>25+ Web & Mobile Projects</span>
               </div>
             </div>
 
             {/* CTAs */}
-            <div className="pt-4 flex flex-wrap items-center gap-4">
-              <button
-                onClick={onOpenResume}
-                className="group relative px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-950 bg-gradient-to-r from-teal-400 via-cyan-400 to-sky-400 hover:from-teal-300 hover:to-cyan-300 shadow-lg shadow-teal-500/25 transition-all duration-300 hover:scale-[1.02] flex items-center gap-2.5"
+            <div className="pt-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4 w-full sm:w-auto">
+              <a
+                href="/Dhakshan-Resume.pdf"
+                download="Dhakshan-Resume.pdf"
+                onClick={() => {
+                  try {
+                    confetti({
+                      particleCount: 50,
+                      spread: 60,
+                      origin: { y: 0.7 }
+                    });
+                  } catch {}
+                }}
+                className="group relative px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-950 bg-gradient-to-r from-teal-400 via-cyan-400 to-sky-400 hover:from-teal-300 hover:to-cyan-300 shadow-lg shadow-teal-500/25 transition-all duration-300 hover:scale-[1.02] flex items-center justify-center gap-2.5 cursor-pointer w-full sm:w-auto text-center"
               >
-                <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform shrink-0" />
                 <span>Download Resume</span>
-              </button>
+              </a>
 
               <a
                 href="#contact"
-                className="px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-200 glass-card hover:bg-slate-800/80 hover:text-white border border-slate-700/80 transition-all flex items-center gap-2 group"
+                className="px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-200 glass-card hover:bg-slate-800/80 hover:text-white border border-slate-700/80 transition-all flex items-center justify-center gap-2 group w-full sm:w-auto text-center"
               >
-                <Mail className="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform" />
+                <Mail className="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform shrink-0" />
                 <span>Contact Me</span>
-                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 text-slate-400 group-hover:translate-x-1 transition-transform shrink-0" />
               </a>
             </div>
 
-            {/* Social / Contact Links */}
-            <div className="pt-6 border-t border-slate-800/80 flex items-center gap-4">
+            {/* Social / Contact Links (Desktop & Tablet) */}
+            <div className="pt-6 border-t border-slate-800/80 hidden sm:flex items-center gap-4">
               <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">Connect:</span>
               <div className="flex items-center gap-3">
                 <a

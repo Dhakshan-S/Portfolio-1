@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CheckCircle2,
   FileCheck,
@@ -20,13 +20,24 @@ import {
   Folder,
   CreditCard,
   Star,
-  ArrowRight
+  ArrowRight,
+  ChevronRight
 } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
 
 export default function About() {
   // State for interactive orbit node selection
   const [activeOrbitId, setActiveOrbitId] = useState('functional');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Orbit Nodes Configuration (QA Testing Universe)
   const orbitNodes = [
@@ -34,6 +45,7 @@ export default function About() {
       id: 'functional',
       title: 'Functional Testing',
       short: 'Functional',
+      mobileLines: ['Functional', 'Testing'],
       icon: Layers,
       category: 'BUSINESS LOGIC VALIDATION',
       desc: 'Hands-on testing of web applications by validating business rules, user workflows, calculations, validations, boundary conditions, and positive & negative scenarios against functional requirements.',
@@ -51,6 +63,7 @@ export default function About() {
       id: 'api',
       title: 'API Testing',
       short: 'API Testing',
+      mobileLines: ['API', 'Testing'],
       icon: Globe,
       category: 'SERVICE VALIDATION',
       desc: 'Validating REST APIs by inspecting request/response payloads, authentication, headers, status codes, data accuracy, and API-to-UI consistency.',
@@ -70,6 +83,7 @@ export default function About() {
       id: 'web',
       title: 'Web Application Testing',
       short: 'Web Testing',
+      mobileLines: ['Web App', 'Testing'],
       icon: Monitor,
       category: 'UI & COMPATIBILITY',
       desc: 'Testing responsive web applications across different browsers and screen sizes to ensure consistent functionality, usability, layout, and overall user experience.',
@@ -91,6 +105,7 @@ export default function About() {
       id: 'mobile',
       title: 'Mobile Testing',
       short: 'Mobile Testing',
+      mobileLines: ['Mobile', 'Testing'],
       icon: Smartphone,
       category: 'DEVICE & RESPONSIVE VALIDATION',
       desc: 'Testing mobile-responsive applications across Android and iOS environments, validating screen responsiveness, touch interactions, orientation changes, navigation, and device-specific behavior.',
@@ -110,6 +125,7 @@ export default function About() {
       id: 'regression',
       title: 'Regression Testing',
       short: 'Regression Testing',
+      mobileLines: ['Regression', 'Testing'],
       icon: RefreshCw,
       category: 'RELEASE STABILITY',
       desc: 'Executing regression and retesting cycles after bug fixes, enhancements, and new feature merges to identify unintended side effects and maintain application stability.',
@@ -129,6 +145,7 @@ export default function About() {
       id: 'bug-tracking',
       title: 'Bug Reporting & Tracking',
       short: 'Bug Tracking',
+      mobileLines: ['Bug', 'Tracking'],
       icon: Bug,
       category: 'ISSUE MANAGEMENT',
       desc: 'Identifying, reproducing, documenting, and tracking defects with clear steps, expected vs actual results, severity, priority, screenshots, and supporting evidence.',
@@ -147,6 +164,7 @@ export default function About() {
       id: 'requirements',
       title: 'Requirement Analysis',
       short: 'Requirement Analysis',
+      mobileLines: ['Requirement', 'Analysis'],
       icon: FileCheck,
       category: 'QUALITY PLANNING',
       desc: 'Reviewing functional requirements and business workflows to identify gaps, ambiguities, missing validations, and potential edge cases before and during development.',
@@ -290,27 +308,27 @@ export default function About() {
           </div>
 
           {/* Main Orbit Stage Container */}
-          <div className="relative bg-slate-950/70 rounded-3xl border border-slate-800/80 p-6 sm:p-10 backdrop-blur-xl overflow-hidden shadow-2xl">
+          <div className="relative bg-slate-950/70 rounded-3xl border border-slate-800/80 p-1.5 xs:p-3 sm:p-8 md:p-10 backdrop-blur-xl overflow-hidden shadow-2xl">
 
             {/* Background Radial Glow & Radar Scanner */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-cyan-950/30 via-slate-950/40 to-transparent pointer-events-none" />
             <div className="absolute -top-32 -left-32 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-32 -right-32 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            {/* Orbit System - Desktop & Tablet Visual */}
-            <div className="relative w-full max-w-[940px] mx-auto min-h-[560px] sm:min-h-[620px] flex items-center justify-center">
+            {/* Radial QA Orbit System - Responsive for Mobile & Desktop */}
+            <div className="relative w-full max-w-[940px] mx-auto min-h-[480px] xs:min-h-[520px] sm:min-h-[560px] md:min-h-[620px] flex items-center justify-center">
 
               {/* Concentric Orbit Rings (SVG Background Lines) */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
 
                 {/* Outer dashed orbit circle */}
-                <div className="w-[340px] h-[340px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px] rounded-full border border-dashed border-cyan-500/20 animate-orbit-slow" />
+                <div className="w-[270px] h-[270px] xs:w-[295px] xs:h-[295px] sm:w-[460px] sm:h-[460px] md:w-[540px] md:h-[540px] rounded-full border border-dashed border-cyan-500/25 animate-orbit-slow" />
 
                 {/* Secondary orbit circle with reverse rotation */}
-                <div className="absolute w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] rounded-full border border-slate-700/60 animate-orbit-reverse" />
+                <div className="absolute w-[180px] h-[180px] xs:w-[200px] xs:h-[200px] sm:w-[320px] sm:h-[320px] md:w-[380px] md:h-[380px] rounded-full border border-slate-700/60 animate-orbit-reverse" />
 
                 {/* Pulsing Core Radar Wave */}
-                <div className="absolute w-44 h-44 sm:w-56 sm:h-56 rounded-full border border-teal-500/30 animate-radar" />
+                <div className="absolute w-28 h-28 xs:w-36 xs:h-36 sm:w-44 sm:h-44 md:w-56 md:h-56 rounded-full border border-teal-500/30 animate-radar" />
 
                 {/* Subtle Decorative Star/Particle Nodes on Orbit */}
                 <div className="absolute top-[12%] right-[22%] w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping opacity-60" />
@@ -321,99 +339,125 @@ export default function About() {
 
               {/* Center Node: "QUALITY ANALYST" */}
               <div className="relative z-20 group">
-                <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-teal-500/60 flex flex-col items-center justify-center text-center p-3 shadow-[0_0_50px_rgba(20,184,166,0.35)] cursor-pointer transition-transform duration-300 hover:scale-105">
+                <div className="relative w-20 h-20 xs:w-24 xs:h-24 sm:w-36 sm:h-36 md:w-44 md:h-44 rounded-full bg-gradient-to-b from-slate-900 via-slate-950 to-black border-2 border-teal-500/60 flex flex-col items-center justify-center text-center p-1.5 sm:p-3 shadow-[0_0_50px_rgba(20,184,166,0.35)] cursor-pointer transition-transform duration-300 hover:scale-105">
 
                   {/* Glowing Core Ring */}
                   <div className="absolute inset-1 rounded-full border border-cyan-400/30 animate-pulse pointer-events-none" />
 
                   {/* Glowing Center Badge */}
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-teal-500/20 border border-teal-400/60 flex items-center justify-center mb-1.5 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.5)]">
-                    <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <div className="w-4 h-4 xs:w-5 xs:h-5 sm:w-8 sm:h-8 rounded-full bg-teal-500/20 border border-teal-400/60 flex items-center justify-center mb-0.5 sm:mb-1.5 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.5)]">
+                    <ShieldCheck className="w-2.5 h-2.5 xs:w-3 xs:h-3 sm:w-5 sm:h-5" />
                   </div>
 
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-teal-400 font-semibold">
+                  <span className="text-[6.5px] xs:text-[7.5px] sm:text-[10px] font-mono uppercase tracking-widest text-teal-400 font-semibold">
                     CORE HUB
                   </span>
-                  <span className="text-base sm:text-lg font-black text-white tracking-wider leading-tight">
+                  <span className="text-[9px] xs:text-[10px] sm:text-base md:text-lg font-black text-white tracking-wider leading-tight">
                     QUALITY<br />ANALYST
                   </span>
-                  <span className="text-[9px] font-mono text-cyan-300/80 mt-1 uppercase tracking-wider">
+                  <span className="text-[5.5px] xs:text-[6.5px] sm:text-[9px] font-mono text-cyan-300/80 mt-0.5 sm:mt-1 uppercase tracking-wider">
                     DHAKSHAN S
                   </span>
 
                   {/* Micro Live Pulse indicator */}
-                  <div className="absolute -bottom-2 px-2.5 py-0.5 rounded-full bg-teal-950 border border-teal-500/50 text-[9px] font-mono text-teal-300 flex items-center gap-1 shadow-md">
+                  <div className="absolute -bottom-1.5 sm:-bottom-2 px-1.5 xs:px-2 sm:px-2.5 py-0.5 rounded-full bg-teal-950 border border-teal-500/50 text-[6.5px] xs:text-[7.5px] sm:text-[9px] font-mono text-teal-300 flex items-center gap-1 shadow-md">
                     <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
                     <span>ORBIT ACTIVE</span>
                   </div>
                 </div>
               </div>
 
-              {/* 7 Connected Orbit Nodes (Positioned Radially on Desktop/Tablet) */}
-              {orbitNodes.map((node, index) => {
-                const Icon = node.icon;
-                const isActive = activeOrbitId === node.id;
+              {/* 7 Connected Orbit Nodes (Positioned Radially on Desktop, Tailored on Mobile) */}
+              {(() => {
+                // Portrait-optimized coordinates for mobile screens so nodes never go out of screen or overlap
+                // Bug Tracking (x: 17) & Web App Testing (x: 83) are placed right near the borders with clean parallel alignment
+                const mobileCoordinates = [
+                  { x: 50, y: 11 },  // 0: functional (top center)
+                  { x: 77, y: 25 },  // 1: api (top right)
+                  { x: 83, y: 53 },  // 2: web (middle right, aligned near border)
+                  { x: 71, y: 83 },  // 3: mobile (bottom right)
+                  { x: 29, y: 83 },  // 4: regression (bottom left)
+                  { x: 17, y: 53 },  // 5: bug-tracking (middle left, aligned near border)
+                  { x: 23, y: 25 }   // 6: requirements (top left)
+                ];
 
-                // Radial positions dynamically calculated for all 7 nodes (360 / 7)
-                // -90 deg offset so node 0 starts at top
-                const angleStep = 360 / orbitNodes.length;
-                const angleDeg = index * angleStep - 90;
-                const angleRad = (angleDeg * Math.PI) / 180;
-                const radiusPercent = 40;
-                const xPercent = 50 + radiusPercent * Math.cos(angleRad);
-                const yPercent = 50 + radiusPercent * Math.sin(angleRad);
+                return orbitNodes.map((node, index) => {
+                  const Icon = node.icon;
+                  const isActive = activeOrbitId === node.id;
 
-                return (
-                  <div
-                    key={node.id}
-                    onClick={() => setActiveOrbitId(node.id)}
-                    onMouseEnter={() => setActiveOrbitId(node.id)}
-                    style={{
-                      left: `${xPercent}%`,
-                      top: `${yPercent}%`,
-                      transform: 'translate(-50%, -50%)'
-                    }}
-                    className={`absolute z-30 cursor-pointer transition-all duration-300 group ${isActive ? 'scale-110' : 'hover:scale-105'
-                      }`}
-                  >
-                    {/* Node Glass Pill / Button */}
+                  // Desktop radial positions dynamically calculated (360 / 7)
+                  const angleStep = 360 / orbitNodes.length;
+                  const angleDeg = index * angleStep - 90;
+                  const angleRad = (angleDeg * Math.PI) / 180;
+                  const desktopX = 50 + 40 * Math.cos(angleRad);
+                  const desktopY = 50 + 40 * Math.sin(angleRad);
+
+                  const xPercent = isMobile ? mobileCoordinates[index].x : desktopX;
+                  const yPercent = isMobile ? mobileCoordinates[index].y : desktopY;
+
+                  return (
                     <div
-                      className={`relative flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border transition-all duration-300 shadow-xl backdrop-blur-md ${isActive
-                        ? 'bg-slate-900/95 border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.45)] ring-2 ring-cyan-500/30'
-                        : 'bg-slate-950/85 border-slate-800 hover:border-teal-500/60 hover:bg-slate-900/90'
+                      key={node.id}
+                      onClick={() => setActiveOrbitId(node.id)}
+                      onMouseEnter={() => setActiveOrbitId(node.id)}
+                      style={{
+                        left: `${xPercent}%`,
+                        top: `${yPercent}%`,
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                      className={`absolute z-30 cursor-pointer transition-all duration-300 group ${isActive ? 'scale-[1.02] sm:scale-110' : 'hover:scale-[1.02] sm:hover:scale-105'
                         }`}
                     >
-                      {/* Icon with glowing badge */}
+                      {/* Node Glass Pill / Button - Uniform width & height across all nodes on mobile */}
                       <div
-                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center transition-colors ${isActive
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800 group-hover:text-teal-300 group-hover:border-teal-500/40'
+                        className={`relative flex items-center gap-1.5 xs:gap-2 px-2 py-1.5 xs:px-2.5 xs:py-2 sm:px-4 sm:py-2.5 w-[108px] xs:w-[114px] sm:w-auto h-[46px] xs:h-[50px] sm:h-auto rounded-xl sm:rounded-2xl border transition-all duration-300 shadow-xl backdrop-blur-md ${isActive
+                          ? 'bg-gradient-to-r from-slate-900/95 via-cyan-950/80 to-slate-900/95 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.45)] ring-1 sm:ring-2 ring-cyan-500/30'
+                          : 'bg-slate-950/90 border-slate-800/90 hover:border-teal-500/60 hover:bg-slate-900/90'
                           }`}
                       >
-                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                      </div>
-
-                      {/* Text label */}
-                      <div className="text-left">
+                        {/* Icon with glowing badge */}
                         <div
-                          className={`text-xs sm:text-sm font-bold tracking-tight whitespace-nowrap transition-colors ${isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
+                          className={`w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl flex items-center justify-center transition-colors shrink-0 ${isActive
+                            ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/60 shadow-[0_0_12px_rgba(6,182,212,0.5)]'
+                            : 'bg-slate-900 text-slate-400 border border-slate-800 group-hover:text-teal-300 group-hover:border-teal-500/40'
                             }`}
                         >
-                          {node.title}
+                          <Icon className="w-3 h-3 xs:w-3.5 xs:h-3.5 sm:w-4 sm:h-4" />
                         </div>
-                        <div className="text-[10px] font-mono text-cyan-400/80 uppercase tracking-wider hidden sm:block">
-                          {node.category}
-                        </div>
-                      </div>
 
-                      {/* Active Indicator Pip */}
-                      {isActive && (
-                        <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] animate-pulse" />
-                      )}
+                        {/* Text label */}
+                        <div className="text-left flex-1 min-w-0 flex flex-col justify-center">
+                          {/* Mobile: Clean 2 natural lines with increased legible font, uniform width, no broken words */}
+                          <div className="sm:hidden tracking-tight">
+                            <span className={`block truncate text-[10.5px] xs:text-[11.5px] font-bold leading-tight ${isActive ? 'text-white' : 'text-slate-100 group-hover:text-white'}`}>
+                              {node.mobileLines[0]}
+                            </span>
+                            <span className={`block truncate text-[9.5px] xs:text-[10.5px] font-semibold leading-tight mt-0.5 ${isActive ? 'text-cyan-300' : 'text-cyan-400/90 group-hover:text-cyan-300'}`}>
+                              {node.mobileLines[1]}
+                            </span>
+                          </div>
+
+                          {/* Desktop / Tablet: Full title on one line */}
+                          <div
+                            className={`hidden sm:block text-xs md:text-sm font-bold tracking-tight whitespace-nowrap transition-colors ${isActive ? 'text-white' : 'text-slate-300 group-hover:text-white'
+                              }`}
+                          >
+                            {node.title}
+                          </div>
+                          <div className="text-[10px] font-mono text-cyan-400/80 uppercase tracking-wider hidden sm:block">
+                            {node.category}
+                          </div>
+                        </div>
+
+                        {/* Active Indicator Pip (Top-Right Badge so box width is untouched) */}
+                        {isActive && (
+                          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,1)] ring-2 ring-slate-950 animate-pulse shrink-0" />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                });
+              })()}
 
               {/* Connecting Laser Beams from Center to Active Node (SVG overlay) */}
               <svg
@@ -432,38 +476,51 @@ export default function About() {
                   </linearGradient>
                 </defs>
 
-                {orbitNodes.map((node, index) => {
-                  const angleStep = 360 / orbitNodes.length;
-                  const angleDeg = index * angleStep - 90;
-                  const angleRad = (angleDeg * Math.PI) / 180;
-                  const radiusPercent = 40;
-                  const x = 50 + radiusPercent * Math.cos(angleRad);
-                  const y = 50 + radiusPercent * Math.sin(angleRad);
-                  const isActive = activeOrbitId === node.id;
+                {(() => {
+                  const mobileCoordinates = [
+                    { x: 50, y: 11 },
+                    { x: 77, y: 25 },
+                    { x: 83, y: 53 },
+                    { x: 71, y: 83 },
+                    { x: 29, y: 83 },
+                    { x: 17, y: 53 },
+                    { x: 23, y: 25 }
+                  ];
 
-                  return (
-                    <g key={`beam-${node.id}`}>
-                      {/* Base thin connection line */}
-                      <line
-                        x1="50"
-                        y1="50"
-                        x2={x}
-                        y2={y}
-                        stroke={isActive ? 'url(#beamGradient)' : 'url(#faintBeam)'}
-                        strokeWidth={isActive ? '0.6' : '0.25'}
-                        strokeDasharray={isActive ? '2 1.5' : '1.5 2'}
-                        className={isActive ? 'animate-dash-fast' : ''}
-                      />
-                    </g>
-                  );
-                })}
+                  return orbitNodes.map((node, index) => {
+                    const angleStep = 360 / orbitNodes.length;
+                    const angleDeg = index * angleStep - 90;
+                    const angleRad = (angleDeg * Math.PI) / 180;
+                    const desktopX = 50 + 40 * Math.cos(angleRad);
+                    const desktopY = 50 + 40 * Math.sin(angleRad);
+                    const x = isMobile ? mobileCoordinates[index].x : desktopX;
+                    const y = isMobile ? mobileCoordinates[index].y : desktopY;
+                    const isActive = activeOrbitId === node.id;
+
+                    return (
+                      <g key={`beam-${node.id}`}>
+                        {/* Base thin connection line */}
+                        <line
+                          x1="50"
+                          y1="50"
+                          x2={x}
+                          y2={y}
+                          stroke={isActive ? 'url(#beamGradient)' : 'url(#faintBeam)'}
+                          strokeWidth={isActive ? '0.6' : '0.25'}
+                          strokeDasharray={isActive ? '2 1.5' : '1.5 2'}
+                          className={isActive ? 'animate-dash-fast' : ''}
+                        />
+                      </g>
+                    );
+                  });
+                })()}
               </svg>
 
             </div>
 
             {/* Interactive Telemetry Inspector Readout */}
-            <div className="mt-8 pt-6 border-t border-slate-800/80 bg-slate-900/50 rounded-2xl p-5 sm:p-6 text-left relative overflow-hidden">
-              <div className="absolute top-0 right-0 px-4 py-1.5 rounded-bl-xl bg-cyan-950/80 border-b border-l border-cyan-800/60 text-[10px] font-mono text-cyan-300 flex items-center gap-1.5">
+            <div className="mt-8 pt-6 border-t border-slate-800/80 bg-slate-900/50 rounded-2xl p-4 sm:p-6 text-left relative overflow-hidden">
+              <div className="sm:absolute sm:top-0 sm:right-0 inline-flex items-center gap-1.5 px-3.5 py-1 mb-3 sm:mb-0 rounded-lg sm:rounded-none sm:rounded-bl-xl bg-cyan-950/80 border border-cyan-800/60 text-[10px] font-mono text-cyan-300 w-fit">
                 <Zap className="w-3 h-3 text-cyan-400" />
                 <span>TELEMETRY INSPECTOR</span>
               </div>

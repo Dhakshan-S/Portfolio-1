@@ -37,42 +37,42 @@ export default function Experience({ onOpenTestRunner }) {
         </div>
 
         {/* Timeline Container */}
-        <div className="max-w-4xl mx-auto space-y-12">
+        <div className="max-w-4xl mx-auto space-y-10 sm:space-y-12">
           {experienceData.map((exp, idx) => (
-            <div key={idx} className="relative pl-8 md:pl-10 text-left group">
+            <div key={idx} className="relative pl-6 sm:pl-8 md:pl-10 text-left group">
               
               {/* Timeline Connector Line */}
-              <div className="absolute left-3 md:left-4 top-10 bottom-0 w-0.5 bg-gradient-to-b from-teal-500 via-cyan-500 to-slate-800" />
+              <div className="absolute left-2.5 sm:left-3 md:left-4 top-10 bottom-0 w-0.5 bg-gradient-to-b from-teal-500 via-cyan-500 to-slate-800" />
               
               {/* Node Icon */}
-              <div className="absolute left-0 top-0 w-7 h-7 md:w-8 md:h-8 rounded-full bg-[#0B0F17] border-2 border-teal-400 flex items-center justify-center text-teal-300 shadow-md shadow-teal-500/30 group-hover:scale-110 transition-transform">
-                <Briefcase className="w-3.5 h-3.5" />
+              <div className="absolute left-0 top-0 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-[#0B0F17] border-2 border-teal-400 flex items-center justify-center text-teal-300 shadow-md shadow-teal-500/30 group-hover:scale-110 transition-transform">
+                <Briefcase className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
 
               {/* Experience Card */}
-              <div className="glass-card rounded-2xl p-6 md:p-8 border border-slate-800 space-y-6 hover:border-teal-500/40 transition-all shadow-xl">
+              <div className="glass-card rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-800 space-y-5 sm:space-y-6 hover:border-teal-500/40 transition-all shadow-xl">
                 
                 {/* Role Header */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/80">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-slate-800/80">
                   <div>
                     <div className="inline-block px-2.5 py-1 rounded bg-teal-950/80 text-teal-300 text-[11px] font-mono border border-teal-800/80 mb-2">
                       {exp.badge}
                     </div>
-                    <h3 className="text-2xl font-bold text-white group-hover:text-teal-300 transition-colors">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-teal-300 transition-colors">
                       {exp.role}
                     </h3>
-                    <div className="text-lg font-semibold text-cyan-400">
+                    <div className="text-base sm:text-lg font-semibold text-cyan-400">
                       {exp.company}
                     </div>
                   </div>
 
-                  <div className="flex flex-col md:items-end gap-1.5 text-xs font-mono text-slate-400">
+                  <div className="flex flex-row sm:flex-col sm:items-end flex-wrap gap-2 text-xs font-mono text-slate-400">
                     <div className="flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
-                      <Calendar className="w-3.5 h-3.5 text-teal-400" />
+                      <Calendar className="w-3.5 h-3.5 text-teal-400 shrink-0" />
                       <span className="text-slate-200">{exp.duration}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                       <span>{exp.location}</span>
                     </div>
                   </div>
@@ -81,12 +81,12 @@ export default function Experience({ onOpenTestRunner }) {
                 {/* Highlights List */}
                 <div className="space-y-3">
                   <h4 className="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-teal-400" />
-                    Key Accomplishments & Responsibilities:
+                    <ShieldCheck className="w-4 h-4 text-teal-400 shrink-0" />
+                    <span>Key Accomplishments &amp; Responsibilities:</span>
                   </h4>
                   <ul className="grid grid-cols-1 gap-2.5">
                     {exp.highlights.map((bullet, bIdx) => (
-                      <li key={bIdx} className="flex items-start gap-3 text-slate-300 text-sm leading-relaxed">
+                      <li key={bIdx} className="flex items-start gap-2.5 sm:gap-3 text-slate-300 text-xs sm:text-sm leading-relaxed">
                         <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                         <span>{bullet}</span>
                       </li>
@@ -96,8 +96,8 @@ export default function Experience({ onOpenTestRunner }) {
 
                 {/* Tech & QA Tool Chips */}
                 <div className="pt-4 border-t border-slate-800/80">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-xs font-mono text-slate-400 mr-2">Tools & Practices:</span>
+                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                    <span className="text-xs font-mono text-slate-400 mr-1 sm:mr-2">Tools &amp; Practices:</span>
                     {exp.techTags.map((tag, tIdx) => (
                       <span
                         key={tIdx}
@@ -116,22 +116,22 @@ export default function Experience({ onOpenTestRunner }) {
         </div>
 
         {/* Owned SDLC QA Process Visualizer */}
-        <div className="mt-16 glass-panel rounded-2xl p-6 md:p-8 border border-slate-800 space-y-6 text-left">
+        <div className="mt-12 sm:mt-16 glass-panel rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-800 space-y-6 text-left">
           <div className="border-b border-slate-800 pb-4">
             <div>
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-cyan-400" />
-                End-to-End QA Workflow Owned (5 Projects)
+              <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2">
+                <Terminal className="w-5 h-5 text-cyan-400 shrink-0" />
+                <span>End-to-End QA Workflow Owned (5 Projects)</span>
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-400 mt-1">
                 Standard operating methodology applied from requirement intake to QA sign-off.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 sm:gap-3 pt-2">
             {sdlcSteps.map((step, idx) => (
-              <div key={idx} className="bg-slate-900/70 p-4 rounded-xl border border-slate-800 space-y-1 relative group hover:border-teal-500/40 transition-all">
+              <div key={idx} className="bg-slate-900/70 p-3.5 sm:p-4 rounded-xl border border-slate-800 space-y-1 relative group hover:border-teal-500/40 transition-all">
                 <div className="text-xs font-bold text-teal-400 font-mono">{step.title}</div>
                 <div className="text-[11px] text-slate-400 leading-normal">{step.desc}</div>
               </div>

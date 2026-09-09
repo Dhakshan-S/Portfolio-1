@@ -16,52 +16,6 @@ export default function ResumeModal({ isOpen, onClose }) {
       spread: 70,
       origin: { y: 0.7 }
     });
-
-    const resumeContent = `====================================================
-${personalDetails.name} — ${personalDetails.title}
-====================================================
-Email: ${personalDetails.email}
-Phone: ${personalDetails.phone}
-Location: ${personalDetails.location}
-LinkedIn: ${personalDetails.linkedin}
-
-----------------------------------------------------
-CAREER OBJECTIVE & SUMMARY
-----------------------------------------------------
-${personalDetails.aboutBio}
-
-----------------------------------------------------
-EXPERIENCE
-----------------------------------------------------
-${experienceData.map(exp => `
-${exp.role} | ${exp.company}
-Duration: ${exp.duration} | Location: ${exp.location}
-Highlights:
-${exp.highlights.map(h => `- ${h}`).join('\n')}
-`).join('\n')}
-
-----------------------------------------------------
-CORE SKILLS
-----------------------------------------------------
-${skillCategories.map(cat => `
-[${cat.label}]
-${cat.skills.map(s => `- ${s.name}: ${s.desc}`).join('\n')}
-`).join('\n')}
-
-----------------------------------------------------
-EDUCATION
-----------------------------------------------------
-${educationData.map(edu => `- ${edu.degree} | ${edu.institution} (${edu.grade}) - ${edu.year}`).join('\n')}
-`;
-
-    const blob = new Blob([resumeContent], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'Dhakshan_S_QA_Engineer_Resume.txt';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
@@ -69,29 +23,31 @@ ${educationData.map(edu => `- ${edu.degree} | ${edu.institution} (${edu.grade}) 
       <div className="glass-panel w-full max-w-4xl rounded-2xl border border-slate-800 shadow-2xl overflow-hidden text-left flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div className="bg-slate-900 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400">
+            <div className="w-9 h-9 rounded-xl bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400 shrink-0">
               <FileText className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white">
+              <h3 className="text-sm sm:text-base font-bold text-white">
                 Dhakshan S — QA Engineer Resume Preview
               </h3>
-              <p className="text-xs font-mono text-slate-400">
+              <p className="text-[11px] sm:text-xs font-mono text-slate-400">
                 Verified Document • Quality Assurance Profile
               </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
-            <button
+          <div className="flex items-center justify-between sm:justify-end gap-3">
+            <a
+              href="/Dhakshan-Resume.pdf"
+              download="Dhakshan-Resume.pdf"
               onClick={handleDownload}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-teal-400 to-cyan-400 hover:from-teal-300 hover:to-cyan-300 shadow-md shadow-teal-500/20 flex items-center gap-2 transition-all"
+              className="px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold text-slate-950 bg-gradient-to-r from-teal-400 to-cyan-400 hover:from-teal-300 hover:to-cyan-300 shadow-md shadow-teal-500/20 flex items-center gap-2 transition-all cursor-pointer"
             >
               <Download className="w-4 h-4" />
               <span>Download Resume</span>
-            </button>
+            </a>
 
             <button
               onClick={onClose}
@@ -103,7 +59,7 @@ ${educationData.map(edu => `- ${edu.degree} | ${edu.institution} (${edu.grade}) 
         </div>
 
         {/* Printable Resume Preview */}
-        <div className="p-8 space-y-8 overflow-y-auto bg-[#0A0E17] font-sans">
+        <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto bg-[#0A0E17] font-sans">
           
           {/* Header Block */}
           <div className="border-b border-slate-800 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">

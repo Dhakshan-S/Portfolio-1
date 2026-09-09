@@ -58,30 +58,30 @@ export default function LiveTestRunnerModal({ isOpen, onClose }) {
       <div className="glass-panel w-full max-w-3xl rounded-2xl border border-slate-800 shadow-2xl overflow-hidden text-left flex flex-col max-h-[90vh]">
         
         {/* Header */}
-        <div className="bg-slate-900 px-6 py-4 border-b border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400">
-              <Terminal className="w-5 h-5" />
+        <div className="bg-slate-900 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex items-center justify-between">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-950 border border-teal-800 flex items-center justify-center text-teal-400 shrink-0">
+              <Terminal className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
                 Live QA Test Automation Console
               </h3>
-              <p className="text-xs font-mono text-teal-400">
+              <p className="text-[11px] sm:text-xs font-mono text-teal-400">
                 Interactive Test Suite Execution Simulator
               </p>
             </div>
           </div>
           <button
             onClick={handleModalClose}
-            className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors shrink-0"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 space-y-6 overflow-y-auto">
+        <div className="p-4 sm:p-6 space-y-5 sm:space-y-6 overflow-y-auto">
           
           {/* Test Suite Selector */}
           <div className="space-y-2">
@@ -186,7 +186,7 @@ export default function LiveTestRunnerModal({ isOpen, onClose }) {
         </div>
 
         {/* Modal Footer Controls */}
-        <div className="bg-slate-900 px-6 py-4 border-t border-slate-800 flex items-center justify-between">
+        <div className="bg-slate-900 px-4 sm:px-6 py-3.5 sm:py-4 border-t border-slate-800 flex items-center justify-between gap-3">
           <button
             onClick={() => {
               setCompletedSteps([]);

@@ -299,9 +299,12 @@ export default function Skills() {
   // Responsive card width calculation with uniform dimensions across all slides
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setCardWidth(270);
-      } else if (window.innerWidth < 1024) {
+      const w = window.innerWidth;
+      if (w < 360) {
+        setCardWidth(Math.max(240, w - 36));
+      } else if (w < 640) {
+        setCardWidth(Math.min(w - 48, 275));
+      } else if (w < 1024) {
         setCardWidth(285);
       } else {
         setCardWidth(295);
@@ -544,7 +547,7 @@ export default function Skills() {
                       setActiveIndex(idx);
                     }}
                     style={{ width: `${cardWidth}px` }}
-                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 relative select-none flex flex-col justify-between h-[345px] sm:h-[355px] ${
+                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 relative select-none flex flex-col justify-between min-h-[365px] sm:min-h-[375px] ${
                       isDragging ? 'cursor-grabbing' : 'cursor-grab'
                     } ${
                       isActive
@@ -580,8 +583,8 @@ export default function Skills() {
                         {card.level}
                       </span>
 
-                      {/* 4. Subtitles (Comma-separated skills text with fixed height for perfect uniformity) */}
-                      <p className="text-xs sm:text-[12.5px] text-slate-300 leading-relaxed font-normal text-center line-clamp-3 h-[52px] sm:h-[56px] flex items-center justify-center px-1">
+                      {/* 4. Subtitles (Full text clearly visible across all screen sizes without truncation) */}
+                      <p className="text-[11.5px] sm:text-xs text-slate-300 leading-relaxed font-normal text-center min-h-[64px] sm:min-h-[68px] flex items-center justify-center px-1">
                         {card.subtitles}
                       </p>
 
@@ -658,12 +661,12 @@ export default function Skills() {
         </div>
 
         {/* Tagline */}
-        <div className="flex items-center justify-center gap-3 mt-4 text-xs text-slate-400 font-medium italic select-none">
-          <span className="h-px w-8 bg-slate-800" />
+        <div className="flex items-center justify-center gap-1.5 sm:gap-3 mt-4 text-[10.5px] xs:text-[11px] sm:text-xs text-slate-400 font-medium italic select-none whitespace-nowrap px-1">
+          <span className="hidden xs:inline-block h-px w-4 sm:w-8 bg-slate-800 shrink-0" />
           <span>
-            Better Tests &nbsp;<span className="text-purple-400 font-bold not-italic">→</span>&nbsp; Better Products &nbsp;<span className="text-purple-400 font-bold not-italic">→</span>&nbsp; Happier Users 💜
+            Better Tests <span className="text-purple-400 font-bold not-italic mx-1">→</span> Better Products <span className="text-purple-400 font-bold not-italic mx-1">→</span> Happier Users 💜
           </span>
-          <span className="h-px w-8 bg-slate-800" />
+          <span className="hidden xs:inline-block h-px w-4 sm:w-8 bg-slate-800 shrink-0" />
         </div>
 
       </div>
