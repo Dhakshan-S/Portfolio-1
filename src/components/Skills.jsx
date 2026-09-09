@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -283,9 +283,18 @@ export default function Skills() {
   const [cardWidth, setCardWidth] = useState(290);
   const cardGap = 16;
 
-  // Touch swipe support
-  const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
+  // Dragging & gesture states for mouse and touch
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+
+  const startXRef = useRef(0);
+  const startYRef = useRef(0);
+  const startTimeRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const hasMovedRef = useRef(false);
+  const isHorizontalScrollRef = useRef(null);
+  const dragOffsetRef = useRef(0);
+  const lastWheelTime = useRef(0);
 
   // Responsive card width calculation with uniform dimensions across all slides
   useEffect(() => {
@@ -312,15 +321,134 @@ export default function Skills() {
     setActiveIndex((prev) => (prev + 1) % skillCards.length);
   };
 
-  const handleTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
-  const handleTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+  // Unified Drag Start (Mouse & Touch)
+  const handleDragStart = (clientX, clientY) => {
+    isDraggingRef.current = true;
+    hasMovedRef.current = false;
+    isHorizontalScrollRef.current = null;
+    startXRef.current = clientX;
+    startYRef.current = clientY;
+    startTimeRef.current = Date.now();
+    dragOffsetRef.current = 0;
+    setIsDragging(true);
+    setDragOffset(0);
+  };
+
+  // Unified Drag Move
+  const handleDragMove = (clientX, clientY, e) => {
+    if (!isDraggingRef.current) return;
+
+    const diffX = clientX - startXRef.current;
+    const diffY = clientY - startYRef.current;
+
+    // Detect gesture axis on mobile touch
+    if (isHorizontalScrollRef.current === null) {
+      if (Math.abs(diffX) > 6 || Math.abs(diffY) > 6) {
+        isHorizontalScrollRef.current = Math.abs(diffX) >= Math.abs(diffY);
+      }
+    }
+
+    // If clearly vertical scrolling on touch, allow native page scroll
+    if (isHorizontalScrollRef.current === false) {
+      return;
+    }
+
+    if (Math.abs(diffX) > 6) {
+      hasMovedRef.current = true;
+    }
+
+    // Prevent default touch scrolling when dragging horizontally
+    if (e && e.cancelable && isHorizontalScrollRef.current) {
+      e.preventDefault();
+    }
+
+    dragOffsetRef.current = diffX;
+    setDragOffset(diffX);
+  };
+
+  // Unified Drag End
+  const handleDragEnd = () => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    setIsDragging(false);
+
+    const finalOffset = dragOffsetRef.current;
+    const elapsedTime = Date.now() - startTimeRef.current;
+    const velocity = Math.abs(finalOffset) / (elapsedTime || 1);
+
+    // Trigger slide change if moved > 40px OR rapid flick gesture
+    const isSwipe = Math.abs(finalOffset) > 40 || (velocity > 0.35 && Math.abs(finalOffset) > 15);
+
+    if (isSwipe) {
+      if (finalOffset > 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    }
+
+    dragOffsetRef.current = 0;
+    setDragOffset(0);
+    isHorizontalScrollRef.current = null;
+    setTimeout(() => {
+      hasMovedRef.current = false;
+    }, 50);
+  };
+
+  // Window listeners for mouse drag so moving cursor outside bounds still tracks smoothly
+  useEffect(() => {
+    const onMouseMove = (e) => {
+      if (!isDraggingRef.current) return;
+      handleDragMove(e.clientX, e.clientY, e);
+    };
+
+    const onMouseUp = () => {
+      if (isDraggingRef.current) {
+        handleDragEnd();
+      }
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
+
+  // Mouse handlers
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return; // Only primary mouse button
+    handleDragStart(e.clientX, e.clientY);
+  };
+
+  // Touch handlers
+  const handleTouchStart = (e) => {
+    handleDragStart(e.touches[0].clientX, e.touches[0].clientY);
+  };
+
+  const handleTouchMove = (e) => {
+    handleDragMove(e.touches[0].clientX, e.touches[0].clientY, e);
+  };
+
   const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
-    if (distance > 50) handleNext();
-    if (distance < -50) handlePrev();
-    setTouchStart(null);
-    setTouchEnd(null);
+    handleDragEnd();
+  };
+
+  // Wheel / Trackpad horizontal scroll support
+  const handleWheel = (e) => {
+    const now = Date.now();
+    if (now - lastWheelTime.current < 350) return;
+    if (Math.abs(e.deltaX) > 25 || (e.shiftKey && Math.abs(e.deltaY) > 25)) {
+      if (e.deltaX > 25 || e.deltaY > 25) {
+        handleNext();
+        lastWheelTime.current = now;
+      } else if (e.deltaX < -25 || e.deltaY < -25) {
+        handlePrev();
+        lastWheelTime.current = now;
+      }
+    }
   };
 
   return (
@@ -382,17 +510,26 @@ export default function Skills() {
 
           {/* Slider Viewport */}
           <div 
-            className="w-full overflow-hidden py-4 px-2"
+            className={`w-full overflow-hidden py-4 px-2 select-none ${
+              isDragging ? 'cursor-grabbing' : 'cursor-grab'
+            }`}
+            style={{ touchAction: 'pan-y' }}
+            onMouseDown={handleMouseDown}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            onTouchCancel={handleTouchEnd}
+            onWheel={handleWheel}
+            onDragStart={(e) => e.preventDefault()}
           >
             {/* Sliding Track: Centers active card (Manual Testing centered by default at index 3) */}
             <div
-              className="flex items-center transition-transform duration-500 ease-out"
+              className={`flex items-center ${
+                isDragging ? 'transition-none' : 'transition-transform duration-500 ease-out'
+              }`}
               style={{
                 gap: `${cardGap}px`,
-                transform: `translateX(calc(50% - ${cardWidth / 2}px - ${activeIndex * (cardWidth + cardGap)}px))`,
+                transform: `translateX(calc(50% - ${cardWidth / 2}px - ${activeIndex * (cardWidth + cardGap)}px + ${dragOffset}px))`,
               }}
             >
               {skillCards.map((card, idx) => {
@@ -402,9 +539,14 @@ export default function Skills() {
                 return (
                   <div
                     key={card.id}
-                    onClick={() => setActiveIndex(idx)}
+                    onClick={() => {
+                      if (hasMovedRef.current) return;
+                      setActiveIndex(idx);
+                    }}
                     style={{ width: `${cardWidth}px` }}
-                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 cursor-pointer relative select-none flex flex-col justify-between h-[345px] sm:h-[355px] ${
+                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 relative select-none flex flex-col justify-between h-[345px] sm:h-[355px] ${
+                      isDragging ? 'cursor-grabbing' : 'cursor-grab'
+                    } ${
                       isActive
                         ? `bg-gradient-to-b ${card.theme.cardBg} border-2 ${card.theme.activeBorder} ${card.theme.activeGlow} scale-100 sm:scale-[1.03] z-20 opacity-100`
                         : 'bg-slate-900/70 border border-slate-800/80 backdrop-blur-md scale-95 opacity-55 hover:opacity-85 z-10'

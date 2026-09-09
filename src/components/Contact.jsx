@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
 import {
   Mail,
   Phone,
@@ -7,15 +8,20 @@ import {
   Copy,
   Check,
   MessageSquare,
-  ShieldCheck
+  ShieldCheck,
+  Loader2,
+  AlertCircle
 } from 'lucide-react';
 import LinkedinIcon from './LinkedinIcon';
 import { personalDetails } from '../data/portfolioData';
 
 export default function Contact() {
+  const formRef = useRef(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -35,14 +41,47 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
+    if (isLoading) return;
+
+    setErrorMessage('');
+    setIsLoading(true);
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    try {
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('Email service configuration missing. Please check your environment variables.');
+      }
+
+      await emailjs.sendForm(
+        serviceId,
+        templateId,
+        formRef.current,
+        {
+          publicKey: publicKey,
+        }
+      );
+
+      setFormSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 4000);
+      if (formRef.current) formRef.current.reset();
+
+      setTimeout(() => {
+        setFormSubmitted(false);
+      }, 5000);
+    } catch (error) {
+      console.error('EmailJS sendForm failed:', error);
+      setErrorMessage(
+        error?.text || error?.message || 'Failed to send message. Please try again or contact directly via email.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -176,12 +215,20 @@ export default function Contact() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                  {errorMessage && (
+                    <div className="p-3.5 rounded-xl bg-rose-950/70 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2.5 animate-in fade-in">
+                      <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-mono text-slate-300 font-medium">Your Name *</label>
                       <input
                         type="text"
+                        name="name"
                         required
                         placeholder="e.g. Rahul Sharma"
                         value={formData.name}
@@ -193,6 +240,7 @@ export default function Contact() {
                       <label className="text-xs font-mono text-slate-300 font-medium">Your Email *</label>
                       <input
                         type="email"
+                        name="email"
                         required
                         placeholder="rahul@company.com"
                         value={formData.email}
@@ -206,6 +254,7 @@ export default function Contact() {
                     <label className="text-xs font-mono text-slate-300 font-medium">Subject</label>
                     <input
                       type="text"
+                      name="subject"
                       placeholder="e.g. QA Opportunity / Project Requirement"
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
@@ -216,6 +265,7 @@ export default function Contact() {
                   <div className="space-y-1.5">
                     <label className="text-xs font-mono text-slate-300 font-medium">Message *</label>
                     <textarea
+                      name="message"
                       required
                       rows="4"
                       placeholder="Write your message here..."
@@ -227,10 +277,24 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full py-3 rounded-xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all cursor-pointer"
+                    disabled={isLoading}
+                    className={`w-full py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all ${
+                      isLoading
+                        ? 'opacity-70 cursor-not-allowed'
+                        : 'hover:bg-teal-400 cursor-pointer'
+                    }`}
                   >
-                    <Send className="w-4 h-4" />
-                    <span>Send Message</span>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Sending Message...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4" />
+                        <span>Send Message</span>
+                      </>
+                    )}
                   </button>
                 </form>
               )}

@@ -4,7 +4,6 @@ import {
   ChevronDown,
   ChevronUp,
   CheckCircle2,
-  Play,
   ShieldCheck
 } from 'lucide-react';
 import { projectsData } from '../data/portfolioData';
@@ -123,14 +122,6 @@ export default function Projects({ onOpenTestRunner }) {
                   >
                     <span>{isExpanded ? 'Hide QA Breakdown' : 'View Full QA Details'}</span>
                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-                  </button>
-
-                  <button
-                    onClick={onOpenTestRunner}
-                    className="px-3.5 py-1.5 rounded-lg text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800 hover:border-cyan-500 hover:bg-cyan-900/60 transition-all flex items-center gap-1.5"
-                  >
-                    <Play className="w-3 h-3 text-cyan-400" />
-                    <span>Run Simulation</span>
                   </button>
                 </div>
 

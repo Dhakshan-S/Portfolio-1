@@ -5,8 +5,7 @@ import {
   MapPin,
   CheckCircle2,
   Terminal,
-  ShieldCheck,
-  ChevronRight
+  ShieldCheck
 } from 'lucide-react';
 import { experienceData } from '../data/portfolioData';
 
@@ -118,7 +117,7 @@ export default function Experience({ onOpenTestRunner }) {
 
         {/* Owned SDLC QA Process Visualizer */}
         <div className="mt-16 glass-panel rounded-2xl p-6 md:p-8 border border-slate-800 space-y-6 text-left">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div className="border-b border-slate-800 pb-4">
             <div>
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                 <Terminal className="w-5 h-5 text-cyan-400" />
@@ -128,13 +127,6 @@ export default function Experience({ onOpenTestRunner }) {
                 Standard operating methodology applied from requirement intake to QA sign-off.
               </p>
             </div>
-            <button
-              onClick={onOpenTestRunner}
-              className="px-4 py-2 rounded-xl text-xs font-mono text-cyan-300 bg-cyan-950/60 border border-cyan-800 hover:border-cyan-500 transition-all flex items-center gap-2"
-            >
-              <span>Test Interactive Runner</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 pt-2">
