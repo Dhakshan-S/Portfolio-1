@@ -108,7 +108,7 @@ function ToolIcon({ type, className = "w-3.5 h-3.5" }) {
 // Center (4th Slide): [4. Manual Testing] (Default active on load)
 // Right: [5. API Testing, 6. Business Analysis, 7. Agile, 8. Defect Management]
 const skillCards = [
-    {
+  {
     id: 'sql-database',
     title: 'SQL Database',
     level: 'Intermediate',
@@ -164,8 +164,7 @@ const skillCards = [
       { name: 'Selenium', icon: 'selenium' },
       { name: 'TestNG', icon: 'testng' },
       { name: 'XPath', icon: 'xpath' },
-      { name: 'Java', icon: 'java' },
-    ],
+   ],
   },
   {
     id: 'manual-testing',
@@ -280,8 +279,9 @@ const allDockTools = [
 export default function Skills() {
   // 4th slide is Manual Testing (index 3). Default active on load so it sits dead-center!
   const [activeIndex, setActiveIndex] = useState(3);
-  const [cardWidth, setCardWidth] = useState(290);
-  const cardGap = 16;
+  const [cardWidth, setCardWidth] = useState(265);
+  const [cardGap, setCardGap] = useState(14);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Dragging & gesture states for mouse and touch
   const [isDragging, setIsDragging] = useState(false);
@@ -296,18 +296,34 @@ export default function Skills() {
   const dragOffsetRef = useRef(0);
   const lastWheelTime = useRef(0);
 
-  // Responsive card width calculation with uniform dimensions across all slides
+  // Responsive card width calculation so adjacent cards peek out clearly on mobile
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
+      const mobile = w < 640;
+      setIsMobile(mobile);
+
       if (w < 360) {
-        setCardWidth(Math.max(240, w - 36));
+        // Small mobile
+        setCardWidth(Math.round(w * 0.74));
+        setCardGap(10);
+      } else if (w < 480) {
+        // Standard mobile (360-480px, e.g. iPhone, Pixel, Galaxy):
+        // Card width ~70% leaves ~45-55px on each side clearly peeking in!
+        setCardWidth(Math.min(Math.round(w * 0.70), 265));
+        setCardGap(12);
       } else if (w < 640) {
-        setCardWidth(Math.min(w - 48, 275));
+        // Larger mobile (480-640px)
+        setCardWidth(Math.min(Math.round(w * 0.65), 275));
+        setCardGap(14);
       } else if (w < 1024) {
+        // Tablets
         setCardWidth(285);
+        setCardGap(16);
       } else {
+        // Desktop
         setCardWidth(295);
+        setCardGap(16);
       }
     };
     handleResize();
@@ -460,7 +476,7 @@ export default function Skills() {
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-cyan-500/10 via-purple-500/10 to-teal-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* ========================================================================= */}
         {/* SECTION HEADER                                                            */}
         {/* ========================================================================= */}
@@ -476,14 +492,14 @@ export default function Skills() {
 
           {/* Title */}
           <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight mb-2">
-            QA Engineer{' '}
+            QA Analyst{' '}
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
               Skill Set
             </span>
           </h2>
 
           {/* Subtitle */}
-          <p className="text-slate-400 text-xs sm:text-sm font-medium tracking-wide">
+          <p className="text-slate-300 text-sm sm:text-base font-medium tracking-wide">
             Quality &nbsp;•&nbsp; Automation &nbsp;•&nbsp; Better Software
           </p>
         </div>
@@ -491,31 +507,30 @@ export default function Skills() {
         {/* ========================================================================= */}
         {/* 8-CARD SLIDER: UNIFORM HEIGHT & WIDTH, MANUAL TESTING IN CENTER           */}
         {/* ========================================================================= */}
-        <div className="relative w-full py-2 mb-6">
-          
+        <div className="relative -mx-3 sm:mx-0 py-2 mb-6">
+
           {/* Left Arrow Button (Infinite loop) */}
           <button
             onClick={handlePrev}
             aria-label="Previous skill"
-            className="absolute left-1 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
+            className="absolute left-1 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-slate-950/85 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
           >
-            <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 group-hover:-translate-x-0.5 transition-transform" />
           </button>
 
           {/* Right Arrow Button (Infinite loop) */}
           <button
             onClick={handleNext}
             aria-label="Next skill"
-            className="absolute right-1 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/90 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
+            className="absolute right-1 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-8 h-8 sm:w-11 sm:h-11 rounded-full bg-slate-950/85 border border-slate-700/80 backdrop-blur-md text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-800 shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 group"
           >
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-0.5 transition-transform" />
           </button>
 
           {/* Slider Viewport */}
-          <div 
-            className={`w-full overflow-hidden py-4 px-2 select-none ${
-              isDragging ? 'cursor-grabbing' : 'cursor-grab'
-            }`}
+          <div
+            className={`w-full overflow-hidden py-4 px-1 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'
+              }`}
             style={{ touchAction: 'pan-y' }}
             onMouseDown={handleMouseDown}
             onTouchStart={handleTouchStart}
@@ -527,9 +542,8 @@ export default function Skills() {
           >
             {/* Sliding Track: Centers active card (Manual Testing centered by default at index 3) */}
             <div
-              className={`flex items-center ${
-                isDragging ? 'transition-none' : 'transition-transform duration-500 ease-out'
-              }`}
+              className={`flex items-center ${isDragging ? 'transition-none' : 'transition-transform duration-500 ease-out'
+                }`}
               style={{
                 gap: `${cardGap}px`,
                 transform: `translateX(calc(50% - ${cardWidth / 2}px - ${activeIndex * (cardWidth + cardGap)}px + ${dragOffset}px))`,
@@ -547,14 +561,16 @@ export default function Skills() {
                       setActiveIndex(idx);
                     }}
                     style={{ width: `${cardWidth}px` }}
-                    className={`shrink-0 rounded-3xl p-5 sm:p-5.5 transition-all duration-500 relative select-none flex flex-col justify-between min-h-[365px] sm:min-h-[375px] ${
-                      isDragging ? 'cursor-grabbing' : 'cursor-grab'
-                    } ${
-                      isActive
-                        ? `bg-gradient-to-b ${card.theme.cardBg} border-2 ${card.theme.activeBorder} ${card.theme.activeGlow} scale-100 sm:scale-[1.03] z-20 opacity-100`
-                        : 'bg-slate-900/70 border border-slate-800/80 backdrop-blur-md scale-95 opacity-55 hover:opacity-85 z-10'
-                    }`}
+                    className={`shrink-0 rounded-3xl p-4 sm:p-5 transition-all duration-500 relative select-none flex flex-col justify-between min-h-[365px] sm:min-h-[375px] ${isDragging ? 'cursor-grabbing' : 'cursor-grab'
+                      } ${isActive
+                        ? `bg-gradient-to-b ${card.theme.cardBg} border-2 ${card.theme.activeBorder} ${card.theme.activeGlow} scale-100 sm:scale-[1.03] z-20 opacity-100 shadow-2xl`
+                        : `bg-slate-900/85 border border-slate-700/70 hover:border-slate-600 backdrop-blur-md scale-[0.91] sm:scale-95 opacity-70 hover:opacity-90 z-10 shadow-lg shadow-black/50 cursor-pointer`
+                      }`}
                   >
+                    {/* Subtle top sheen on peek cards to make them visibly stand out */}
+                    {!isActive && (
+                      <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-cyan-400/[0.04] to-transparent pointer-events-none" />
+                    )}
                     {/* Top Right "👑 My Strongest Skill" badge (Automation card) */}
                     {card.badge && (
                       <div className="absolute -top-3 right-4 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/30 to-indigo-500/30 border border-purple-400/60 backdrop-blur-md text-purple-200 text-[10px] font-bold flex items-center gap-1 shadow-md shadow-purple-500/20">
@@ -564,44 +580,46 @@ export default function Skills() {
                     )}
 
                     {/* TOP SECTION: 1. Centered Icon -> 2. Title -> 3. Level Badge */}
-                    <div className="flex flex-col items-center text-center">
-                      
+                    <div className="flex-1 flex flex-col items-center text-center justify-start w-full">
+
                       {/* 1. Circular Icon Medallion */}
-                      <div className={`w-12 h-12 sm:w-13 sm:h-13 rounded-full ${card.theme.circleBg} p-0.5 shadow-lg flex items-center justify-center mb-2.5`}>
+                      <div className={`w-11 h-11 sm:w-13 sm:h-13 rounded-full ${card.theme.circleBg} p-0.5 shadow-lg flex items-center justify-center mb-2`}>
                         <div className="w-full h-full rounded-full flex items-center justify-center bg-black/15">
-                          <IconComponent className="w-6 h-6 text-white" />
+                          <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         </div>
                       </div>
 
                       {/* 2. Title */}
-                      <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight mb-1.5 truncate w-full">
+                      <h3 className="text-base sm:text-lg font-bold text-white tracking-tight leading-tight mb-1 truncate w-full">
                         {card.title}
                       </h3>
 
                       {/* 3. Level Badge */}
-                      <span className={`inline-block px-3 py-0.5 rounded-full text-[11px] font-bold tracking-wide shadow-sm mb-2.5 ${card.levelBadge}`}>
+                      <span className={`inline-block px-3 py-0.5 rounded-full text-[10.5px] sm:text-[11px] font-bold tracking-wide shadow-sm mb-2 ${card.levelBadge}`}>
                         {card.level}
                       </span>
 
-                      {/* 4. Subtitles (Full text clearly visible across all screen sizes without truncation) */}
-                      <p className="text-[11.5px] sm:text-xs text-slate-300 leading-relaxed font-normal text-center min-h-[64px] sm:min-h-[68px] flex items-center justify-center px-1">
-                        {card.subtitles}
-                      </p>
+                      {/* 4. Subtitles (Expanded text space and line-height to reduce empty gap below) */}
+                      <div className="flex-1 flex items-center justify-center py-2 sm:py-2.5 px-0.5 w-full">
+                        <p className="text-[13.5px] sm:text-[14px] text-slate-200 leading-relaxed sm:leading-loose font-normal text-center">
+                          {card.subtitles}
+                        </p>
+                      </div>
 
                     </div>
 
                     {/* BOTTOM SECTION: 5. Tools Container (Uniform height & structure across all 8 slides) */}
-                    <div className="mt-3 pt-2.5 border-t border-slate-800/80 bg-slate-950/40 rounded-2xl p-2.5 sm:p-3 h-[78px] flex flex-col justify-center">
-                      <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 font-bold block mb-1.5 text-left">
+                    <div className="mt-auto pt-2 border-t border-slate-800/80 bg-slate-950/50 rounded-2xl px-2.5 py-2 min-h-[76px] flex flex-col justify-center">
+                      <span className="text-[9px] font-mono uppercase tracking-widest text-slate-400 font-bold block mb-1 text-left">
                         Tools
                       </span>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1 sm:gap-1.5">
                         {card.tools.map((tool, tIdx) => (
                           <div
                             key={tIdx}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-900/90 border border-slate-700/80 text-[11px] font-medium text-slate-200 shadow-sm"
+                            className="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-slate-900/90 border border-slate-700/80 text-[10.5px] sm:text-[11px] font-medium text-slate-200 shadow-sm whitespace-nowrap"
                           >
-                            <ToolIcon type={tool.icon} className="w-3.5 h-3.5 shrink-0" />
+                            <ToolIcon type={tool.icon} className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
                             <span>{tool.name}</span>
                           </div>
                         ))}
@@ -622,11 +640,10 @@ export default function Skills() {
                 key={idx}
                 onClick={() => setActiveIndex(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
-                className={`transition-all duration-300 rounded-full ${
-                  idx === activeIndex
+                className={`transition-all duration-300 rounded-full ${idx === activeIndex
                     ? 'w-6 h-1.5 bg-gradient-to-r from-blue-400 to-purple-500 shadow-sm'
                     : 'w-1.5 h-1.5 bg-slate-700 hover:bg-slate-500'
-                }`}
+                  }`}
               />
             ))}
           </div>

@@ -11,7 +11,7 @@ export default function Footer() {
   return (
     <footer className="bg-slate-950 border-t border-slate-800 py-12 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        
+
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-slate-800/80 text-left">
           {/* Left Brand & Tagline matching reference */}
           <div className="space-y-4">
@@ -27,7 +27,7 @@ export default function Footer() {
                   Dhakshan S
                 </h3>
                 <p className="text-sm font-medium text-slate-300">
-                  Software Tester | QA Engineer
+                  Software Tester | QA Analyst
                 </p>
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 pt-0.5">
                   <MapPin className="w-3.5 h-3.5 text-cyan-400 shrink-0" />

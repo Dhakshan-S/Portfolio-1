@@ -51,11 +51,15 @@ export default function DraggableIdCard() {
     };
   }, [isDragging]);
 
-  // Pointer Down on Card - Initiate Drag
+  // Pointer Down on Card - Initiate Drag (Desktop Mouse Only)
   const handlePointerDown = (e) => {
-    // Only primary mouse button or touch
+    // On mobile touch devices, don't hijack touch gestures so page scrolling is 100% native and fluid
+    if (isMobile || e.pointerType === 'touch') return;
+    // Only primary mouse button
     if (e.button !== 0) return;
 
+    clearAnimTimeouts();
+    setIsAnimating(false);
     setIsDragging(true);
     dragStartRef.current = {
       x: e.clientX,
@@ -65,7 +69,7 @@ export default function DraggableIdCard() {
 
   // Subtle 3D tilt on hover when not dragging
   const handleCardMouseMove = (e) => {
-    if (isDragging || !cardRef.current) return;
+    if (isMobile || isDragging || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const cardCenterX = rect.left + rect.width / 2;
     const cardCenterY = rect.top + rect.height / 2;
@@ -80,6 +84,19 @@ export default function DraggableIdCard() {
   };
 
   const [isMobile, setIsMobile] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animTimeoutsRef = useRef([]);
+  const swingDirRef = useRef(1);
+  const touchStartPos = useRef({ x: 0, y: 0, time: 0 });
+
+  const clearAnimTimeouts = () => {
+    animTimeoutsRef.current.forEach(clearTimeout);
+    animTimeoutsRef.current = [];
+  };
+
+  useEffect(() => {
+    return () => clearAnimTimeouts();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -90,8 +107,92 @@ export default function DraggableIdCard() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Trigger realistic lanyard swing physics animation
+  const triggerSwingAnimation = () => {
+    clearAnimTimeouts();
+    setIsAnimating(true);
+    setIsDragging(false);
+
+    const dir = swingDirRef.current;
+    swingDirRef.current = -dir; // alternate direction on next trigger
+
+    // Step 1: Swing out dynamically to one side with realistic tilt
+    setPos({ x: dir * 75, y: 25 });
+    setRotation({
+      x: -12,
+      y: dir * 18,
+      z: dir * 10,
+    });
+
+    // Step 2: Swing across past center in opposite direction
+    const t1 = setTimeout(() => {
+      setPos({ x: -dir * 55, y: 18 });
+      setRotation({
+        x: 8,
+        y: -dir * 14,
+        z: -dir * 7,
+      });
+    }, 450);
+
+    // Step 3: Gentle counter-swing
+    const t2 = setTimeout(() => {
+      setPos({ x: dir * 20, y: 8 });
+      setRotation({
+        x: -4,
+        y: dir * 5,
+        z: dir * 3,
+      });
+    }, 900);
+
+    // Step 4: Settle smoothly back to center
+    const t3 = setTimeout(() => {
+      setPos({ x: 0, y: 0 });
+      setRotation({ x: 0, y: 0, z: 0 });
+      setIsAnimating(false);
+    }, 1400);
+
+    animTimeoutsRef.current = [t1, t2, t3];
+  };
+
+  const handleMobileClick = (e) => {
+    if (!isMobile) return;
+    if (e) {
+      e.stopPropagation();
+    }
+    triggerSwingAnimation();
+  };
+
+  // Mobile Touch Gestures:
+  // - Swiping vertically scrolls the webpage naturally without ANY interruption.
+  // - A quick deliberate tap on the card (finger moved < 12px, duration < 300ms) triggers the swing animation.
+  const handleTouchStart = (e) => {
+    if (!isMobile) return;
+    const touch = e.touches[0];
+    touchStartPos.current = {
+      x: touch.clientX,
+      y: touch.clientY,
+      time: Date.now(),
+    };
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!isMobile) return;
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+    const touch = e.changedTouches[0];
+    const dx = Math.abs(touch.clientX - touchStartPos.current.x);
+    const dy = Math.abs(touch.clientY - touchStartPos.current.y);
+    const dt = Date.now() - touchStartPos.current.time;
+
+    // If moved less than 12px and under 300ms, it's a tap, NOT a scroll!
+    if (dx < 12 && dy < 12 && dt < 300) {
+      triggerSwingAnimation();
+    }
+  };
+
   const handleReset = (e) => {
     e.stopPropagation();
+    clearAnimTimeouts();
+    setIsAnimating(false);
     setIsDragging(false);
     setPos({ x: 0, y: 0 });
     setRotation({ x: 0, y: 0, z: 0 });
@@ -104,7 +205,7 @@ export default function DraggableIdCard() {
 
   return (
     <div
-      className={`relative w-full flex flex-col items-center select-none ${isMobile ? 'pt-8 pb-8' : 'pt-2 pb-8'}`}
+      className={`relative w-full flex flex-col items-center select-none ${isMobile ? 'pt-2 pb-5' : 'pt-2 pb-8'}`}
       style={{ perspective: '1200px' }}
     >
       {/* Dynamic Lanyard SVG connecting top frame to the badge clip */}
@@ -250,20 +351,25 @@ export default function DraggableIdCard() {
       <div
         ref={cardRef}
         onPointerDown={handlePointerDown}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         onMouseMove={handleCardMouseMove}
         onMouseLeave={() => {
           if (!isDragging) {
             setRotation({ x: 0, y: 0, z: 0 });
           }
         }}
-        className={`relative z-20 cursor-grab active:cursor-grabbing transition-shadow duration-300 touch-none ${
-          isMobile ? 'mt-10' : ''
+        className={`relative z-20 transition-shadow duration-300 ${
+          isMobile
+            ? 'mt-10 touch-pan-y cursor-pointer'
+            : 'cursor-grab active:cursor-grabbing touch-none'
         } ${isDragging ? 'scale-[1.03]' : 'hover:scale-[1.01]'}`}
         style={{
           transform: `translate3d(${pos.x}px, ${pos.y}px, 0px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg)`,
           transformStyle: 'preserve-3d',
           willChange: 'transform',
           transition: isDragging ? 'none' : 'transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          touchAction: isMobile ? 'pan-y' : 'none',
         }}
       >
         {/* Top Metallic Buckle & Clasp */}
@@ -386,7 +492,7 @@ export default function DraggableIdCard() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-cyan-300 to-sky-300 font-black drop-shadow-[0_0_15px_rgba(6,182,212,0.7)]">S</span>
             </h3>
             <p className="text-xs sm:text-[13px] font-medium text-slate-300 tracking-normal">
-              Software Tester &amp; QA Engineer
+              Software Tester &amp; QA Analyst
             </p>
           </div>
 
@@ -454,24 +560,46 @@ export default function DraggableIdCard() {
         </div>
 
         {/* Floating Controls / Interactive Tooltip */}
-        <div className="mt-4 flex items-center justify-center gap-3">
-          {/* Interactive Drag Pill Badge */}
-          <div
-            className={`px-3 py-1 rounded-full text-xs font-mono font-medium flex items-center gap-1.5 transition-all duration-300 shadow-md ${
-              isDragging
+        <div className="mt-2.5 sm:mt-4 flex items-center justify-center gap-3">
+          {/* Interactive Drag Pill Badge (Becomes interactive button on Mobile) */}
+          <button
+            type="button"
+            onClick={isMobile ? handleMobileClick : undefined}
+            onPointerDown={(e) => {
+              if (isMobile) e.stopPropagation();
+            }}
+            onTouchStart={(e) => {
+              if (isMobile) e.stopPropagation();
+            }}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-medium flex items-center gap-1.5 transition-all duration-300 shadow-md ${
+              isMobile
+                ? 'cursor-pointer active:scale-95 touch-manipulation'
+                : 'cursor-grab'
+            } ${
+              isDragging || isAnimating
                 ? 'bg-cyan-500 text-slate-950 shadow-cyan-500/40 scale-105'
+                : isMobile
+                ? 'bg-slate-900/90 text-cyan-300 border border-cyan-500/50 hover:border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
                 : 'bg-slate-900/90 text-cyan-300 border border-slate-700/80 hover:border-cyan-500/50'
             }`}
           >
-            <Move className={`w-3.5 h-3.5 ${isDragging ? 'animate-spin' : ''}`} />
-            <span>{isDragging ? 'Dragging ID Badge...' : 'Click & Drag ID Card'}</span>
-          </div>
+            <Move className={`w-3.5 h-3.5 ${isDragging || isAnimating ? 'animate-spin' : ''}`} />
+            <span>
+              {isDragging
+                ? 'Dragging ID Badge...'
+                : isAnimating
+                ? 'Moving ID Card...'
+                : isMobile
+                ? 'Tap to Move ID Card'
+                : 'Click & Drag ID Card'}
+            </span>
+          </button>
 
           {/* Reset position button if moved */}
           {(Math.abs(pos.x) > 5 || Math.abs(pos.y) > 5) && (
             <button
               onClick={handleReset}
-              className="p-1.5 rounded-full bg-slate-800/90 text-slate-300 hover:text-white border border-slate-700 transition-all hover:scale-110"
+              className="p-1.5 rounded-full bg-slate-800/90 text-slate-300 hover:text-white border border-slate-700 transition-all hover:scale-110 cursor-pointer"
               title="Reset Position"
             >
               <RotateCcw className="w-3.5 h-3.5" />

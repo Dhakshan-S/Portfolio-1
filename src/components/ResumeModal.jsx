@@ -21,7 +21,7 @@ export default function ResumeModal({ isOpen, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200">
       <div className="glass-panel w-full max-w-4xl rounded-2xl border border-slate-800 shadow-2xl overflow-hidden text-left flex flex-col max-h-[90vh]">
-        
+
         {/* Header */}
         <div className="bg-slate-900 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -30,14 +30,14 @@ export default function ResumeModal({ isOpen, onClose }) {
             </div>
             <div>
               <h3 className="text-sm sm:text-base font-bold text-white">
-                Dhakshan S — QA Engineer Resume Preview
+                Dhakshan S — QA Analyst Resume Preview
               </h3>
               <p className="text-[11px] sm:text-xs font-mono text-slate-400">
                 Verified Document • Quality Assurance Profile
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <a
               href="/Dhakshan-Resume.pdf"
@@ -60,7 +60,7 @@ export default function ResumeModal({ isOpen, onClose }) {
 
         {/* Printable Resume Preview */}
         <div className="p-4 sm:p-8 space-y-6 sm:space-y-8 overflow-y-auto bg-[#0A0E17] font-sans">
-          
+
           {/* Header Block */}
           <div className="border-b border-slate-800 pb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>

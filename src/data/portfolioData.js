@@ -1,6 +1,6 @@
 export const personalDetails = {
   name: "Dhakshan S",
-  title: "Software Tester | QA Engineer",
+  title: "Software Tester | QA Analyst",
   tagline: "Turning bugs into better software — Manual, API & Automation Testing.",
   location: "Chennai, Tamil Nadu",
   email: "dhakshansudhakar007@gmail.com",

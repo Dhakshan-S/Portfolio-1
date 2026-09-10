@@ -21,7 +21,8 @@ import {
   CreditCard,
   Star,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  MapPin
 } from 'lucide-react';
 import { personalDetails } from '../data/portfolioData';
 
@@ -187,7 +188,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="py-24 relative bg-[#070B12] text-slate-100 border-y border-slate-800/80 overflow-hidden"
+      className="pt-6 pb-16 sm:py-20 md:py-24 relative bg-[#070B12] text-slate-100 border-y border-slate-800/80 overflow-hidden"
     >
       {/* Ambient Cyber Grid & Glow Backdrop */}
       <div className="absolute inset-0 bg-cyber-grid opacity-60 pointer-events-none" />
@@ -211,12 +212,12 @@ export default function About() {
         {/* ========================================================================= */}
         {/* TOP TELEMETRY STATUS BAR                                                 */}
         {/* ========================================================================= */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-8 mb-8 border-b border-slate-800/60 text-xs font-mono">
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2.5 sm:gap-3 pb-4 mb-5 sm:pb-6 sm:mb-8 border-b border-slate-800/60 text-xs font-mono w-full text-center">
 
-          {/* Glowing Badge: QA ENGINEER • 1+ YEARS EXPERIENCE */}
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-teal-950/70 border border-teal-500/40 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.25)]">
-            <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-            <span className="font-semibold tracking-wider uppercase">QA ENGINEER • 1+ YEARS EXPERIENCE</span>
+          {/* Glowing Badge: QA Analyst • 1+ YEARS EXPERIENCE */}
+          <div className="inline-flex items-center justify-center gap-2.5 px-3.5 py-1.5 rounded-full bg-teal-950/70 border border-teal-500/40 text-teal-300 shadow-[0_0_15px_rgba(20,184,166,0.25)] text-center">
+            <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse shrink-0" />
+            <span className="font-semibold tracking-wider uppercase text-[11px] sm:text-xs">QA Analyst • 1+ YEARS EXPERIENCE</span>
           </div>
 
           {/* Micro Banner: TEST → FIND → FIX → VERIFY → RELEASE */}
@@ -233,26 +234,31 @@ export default function About() {
           </div>
 
           {/* Professional Status Indicator: AVAILABLE FOR QA OPPORTUNITIES */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            <span className="relative flex h-2.5 w-2.5">
+          <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.2)] text-center">
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
             </span>
-            <span className="font-semibold tracking-wide uppercase text-[11px]">AVAILABLE FOR QA OPPORTUNITIES</span>
+            <span className="font-semibold tracking-wide uppercase text-[11px] sm:text-xs">AVAILABLE FOR QA OPPORTUNITIES</span>
           </div>
         </div>
 
         {/* ========================================================================= */}
         {/* HERO AREA: HEADLINE, SUBTITLE, SHORT DESCRIPTION                          */}
         {/* ========================================================================= */}
-        <div className="text-center max-w-4xl mx-auto space-y-5 mb-16">
+        <div className="text-center max-w-4xl mx-auto space-y-4 sm:space-y-5 mb-10 sm:mb-16">
 
-          {/* Subtitle */}
-          <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono tracking-widest text-cyan-400 uppercase font-semibold">
-            <Terminal className="w-4 h-4 text-cyan-400" />
-            <span>Quality Analyst &amp; Business Analyst</span>
-            <span className="text-slate-600">|</span>
-            <span className="text-slate-400">Chennai, Tamil Nadu</span>
+          {/* Subtitle - One by One on Mobile, Inline on Desktop */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 text-xs sm:text-sm font-mono tracking-wider sm:tracking-widest text-center">
+            <div className="inline-flex items-center gap-2 text-cyan-400 uppercase font-semibold">
+              <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 shrink-0" />
+              <span>Quality Analyst &amp; Business Analyst</span>
+            </div>
+            <span className="text-slate-600 hidden sm:inline">•</span>
+            <div className="inline-flex items-center gap-1.5 text-slate-400 uppercase font-medium text-[11px] sm:text-xs">
+              <MapPin className="w-3 h-3 text-teal-400 shrink-0" />
+              <span>Chennai, Tamil Nadu</span>
+            </div>
           </div>
 
           {/* Large Bold Headline */}

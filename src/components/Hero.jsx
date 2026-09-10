@@ -6,7 +6,8 @@ import {
   Phone,
   MapPin,
   CheckCircle2,
-  ArrowRight
+  ArrowRight,
+  ChevronDown
 } from 'lucide-react';
 import LinkedinIcon from './LinkedinIcon';
 import DraggableIdCard from './DraggableIdCard';
@@ -16,7 +17,7 @@ import { personalDetails } from '../data/portfolioData';
 export default function Hero({ onOpenResume }) {
 
   return (
-    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+    <section id="hero" className="relative pt-24 pb-4 sm:pt-32 sm:pb-10 md:pt-40 md:pb-20 overflow-hidden">
       {/* Glow Effects in Background */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-teal-500/15 via-cyan-500/10 to-indigo-500/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
       <div className="absolute top-20 right-10 w-72 h-72 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
@@ -135,20 +136,22 @@ export default function Hero({ onOpenResume }) {
           <div className="lg:col-span-5 relative flex justify-center items-center">
             <div className="w-full flex justify-center relative">
               <DraggableIdCard />
-              
-              {/* Floating QA Tag Accent */}
-              <div className="absolute -bottom-2 -left-4 glass-card px-3.5 py-2 rounded-xl border border-cyan-500/30 flex items-center gap-2.5 shadow-xl hidden sm:flex pointer-events-none z-30">
-                <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-300">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                </div>
-                <div className="text-left">
-                  <div className="text-[10px] font-mono text-slate-400">Identity Status</div>
-                  <div className="text-xs font-bold text-white">Verified QA Analyst</div>
-                </div>
-              </div>
             </div>
           </div>
+        </div>
 
+        {/* Scroll Down Indicator */}
+        <div className="mt-4 sm:mt-6 flex justify-center">
+          <a
+            href="#about"
+            className="flex flex-col items-center gap-1.5 text-slate-400 hover:text-teal-300 transition-colors group cursor-pointer"
+            aria-label="Scroll to About section"
+          >
+            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-slate-400 group-hover:text-teal-300">
+              Scroll to Explore
+            </span>
+            <ChevronDown className="w-4 h-4 animate-bounce text-teal-400" />
+          </a>
         </div>
       </div>
     </section>

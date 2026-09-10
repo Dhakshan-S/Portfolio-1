@@ -151,14 +151,14 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 relative">
+    <section id="contact" className="pt-8 pb-16 sm:pt-12 sm:pb-20 md:py-20 relative">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
+        <div className="text-center max-w-3xl mx-auto space-y-2.5 sm:space-y-3 mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-950/70 border border-teal-800/80 text-teal-300 text-xs font-mono">
             <Mail className="w-3.5 h-3.5" />
             <span>GET IN TOUCH</span>
@@ -173,7 +173,7 @@ export default function Contact() {
 
         {/* Grid Layout: Equal Height Stretch */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
+
           {/* Left Column: Direct Contact Info */}
           <div className="lg:col-span-5 flex flex-col">
             <div className="glass-card rounded-2xl p-4 sm:p-6 md:p-8 border border-slate-800 flex flex-col justify-between h-full space-y-6 text-left">
@@ -182,9 +182,9 @@ export default function Contact() {
                   <ShieldCheck className="w-5 h-5 text-teal-400 shrink-0" />
                   <span>Direct Contact Channel</span>
                 </h3>
-                
+
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  I am actively interviewing for QA Engineer, Software Tester, and Quality Analyst roles. Feel free to contact me via email, phone, or LinkedIn.
+                  I am actively interviewing for QA Analyst, Software Tester, and Quality Analyst roles. Feel free to contact me via email, phone, or LinkedIn.
                 </p>
 
                 {/* Email Card */}
@@ -295,11 +295,10 @@ export default function Contact() {
                           value={formData.name}
                           onChange={(e) => handleChange('name', e.target.value)}
                           onBlur={() => handleBlur('name')}
-                          className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
-                            touched.name && errors.name
+                          className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${touched.name && errors.name
                               ? 'bg-rose-950/20 border border-rose-500/80 focus:border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
                               : 'bg-slate-900/90 border border-slate-800 focus:border-teal-500'
-                          }`}
+                            }`}
                         />
                         {touched.name && errors.name && (
                           <p className="text-[11px] text-rose-400 font-mono flex items-center gap-1 mt-1 animate-in fade-in">
@@ -319,11 +318,10 @@ export default function Contact() {
                           value={formData.email}
                           onChange={(e) => handleChange('email', e.target.value)}
                           onBlur={() => handleBlur('email')}
-                          className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
-                            touched.email && errors.email
+                          className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${touched.email && errors.email
                               ? 'bg-rose-950/20 border border-rose-500/80 focus:border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
                               : 'bg-slate-900/90 border border-slate-800 focus:border-teal-500'
-                          }`}
+                            }`}
                         />
                         {touched.email && errors.email && (
                           <p className="text-[11px] text-rose-400 font-mono flex items-center gap-1 mt-1 animate-in fade-in">
@@ -344,11 +342,10 @@ export default function Contact() {
                         value={formData.subject}
                         onChange={(e) => handleChange('subject', e.target.value)}
                         onBlur={() => handleBlur('subject')}
-                        className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${
-                          touched.subject && errors.subject
+                        className={`w-full rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none transition-all ${touched.subject && errors.subject
                             ? 'bg-rose-950/20 border border-rose-500/80 focus:border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
                             : 'bg-slate-900/90 border border-slate-800 focus:border-teal-500'
-                        }`}
+                          }`}
                       />
                       {touched.subject && errors.subject && (
                         <p className="text-[11px] text-rose-400 font-mono flex items-center gap-1 mt-1 animate-in fade-in">
@@ -367,11 +364,10 @@ export default function Contact() {
                         value={formData.message}
                         onChange={(e) => handleChange('message', e.target.value)}
                         onBlur={() => handleBlur('message')}
-                        className={`w-full rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none transition-all resize-none flex-1 min-h-[140px] ${
-                          touched.message && errors.message
+                        className={`w-full rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none transition-all resize-none flex-1 min-h-[140px] ${touched.message && errors.message
                             ? 'bg-rose-950/20 border border-rose-500/80 focus:border-rose-500 shadow-[0_0_12px_rgba(244,63,94,0.15)]'
                             : 'bg-slate-900/90 border border-slate-800 focus:border-teal-500'
-                        }`}
+                          }`}
                       ></textarea>
                       {touched.message && errors.message && (
                         <p className="text-[11px] text-rose-400 font-mono flex items-center gap-1 mt-1 animate-in fade-in">
@@ -386,11 +382,10 @@ export default function Contact() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all ${
-                        isLoading
+                      className={`w-full py-3 rounded-xl bg-teal-500 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all ${isLoading
                           ? 'opacity-70 cursor-not-allowed'
                           : 'hover:bg-teal-400 cursor-pointer'
-                      }`}
+                        }`}
                     >
                       {isLoading ? (
                         <>

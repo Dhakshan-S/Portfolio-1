@@ -16,7 +16,7 @@ export default function Projects({ onOpenTestRunner }) {
   };
 
   return (
-    <section id="projects" className="py-20 relative">
+    <section id="projects" className="pt-14 pb-8 sm:pt-16 sm:pb-12 md:py-20 relative">
       {/* Background glow */}
       <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-teal-600/10 rounded-full blur-3xl pointer-events-none" />
 
