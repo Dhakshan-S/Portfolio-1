@@ -42,11 +42,11 @@ export default function Hero({ onOpenResume }) {
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.15]">
                 Hi, I'm <span className="text-gradient">{personalDetails.name}</span>
               </h1>
-              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-300 flex items-center gap-3">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-300 flex items-center gap-3">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-cyan-300 to-sky-300">
                   {personalDetails.title}
                 </span>
-              </p>
+              </h2>
             </div>
 
             {/* Tagline */}

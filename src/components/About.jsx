@@ -271,7 +271,7 @@ export default function About() {
 
           {/* Short Professional Description */}
           <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl mx-auto font-normal">
-            Quality Analyst with <span className="text-white font-semibold">1+ year of QA experience</span> across{' '}
+            I'm <span className="text-white font-semibold">Dhakshan S</span>, a dedicated <span className="text-white font-semibold">Software Tester &amp; QA Analyst</span> with <span className="text-white font-semibold">1+ year of QA experience</span> across{' '}
             <span className="text-teal-300 font-medium">Functional Testing</span>,{' '}
             <span className="text-cyan-300 font-medium">UI Testing</span>,{' '}
             <span className="text-sky-300 font-medium">API Testing</span>,{' '}

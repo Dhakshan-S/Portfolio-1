@@ -469,7 +469,7 @@ export default function DraggableIdCard() {
               <div className="w-full h-full rounded-full overflow-hidden bg-slate-900 border-2 border-slate-950">
                 <img
                   src={userPhoto}
-                  alt="Dhakshan S"
+                  alt="Dhakshan S - Software Tester & QA Analyst"
                   className="w-full h-full object-cover object-center scale-105 pointer-events-none"
                   loading="eager"
                   draggable={false}

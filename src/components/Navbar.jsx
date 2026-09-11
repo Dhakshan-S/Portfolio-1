@@ -54,7 +54,7 @@ export default function Navbar({ onOpenResume }) {
             <div className="w-full h-full bg-[#0B0F17] rounded-[10px] overflow-hidden flex items-center justify-center">
               <img
                 src={userPhoto}
-                alt={personalDetails.name}
+                alt={`${personalDetails.name} - Software Tester & QA Analyst`}
                 className="w-full h-full object-cover object-center scale-105 pointer-events-none"
                 loading="eager"
               />

@@ -6,11 +6,12 @@ export const personalDetails = {
   email: "dhakshansudhakar007@gmail.com",
   phone: "+91 8610188861",
   linkedin: "https://linkedin.com/in/dhakshan-s-660754286",
-  github: "https://github.com",
+  github: "https://github.com/Dhakshan-S",
+  portfolioUrl: "https://dhakshan-s.github.io/Portfolio-1",
   experienceYears: "1+",
   projectsCount: "25+",
   ownedProjects: "5",
-  aboutBio: "Quality Analyst with 1+ year of experience across Manual Testing, API Testing, Functional Testing and Business Analysis. Handles end-to-end testing for web and mobile applications — requirement analysis, client communication, and defect management. Based in Chennai, Tamil Nadu."
+  aboutBio: "Dhakshan S is a dedicated Software Tester & QA Analyst with 1+ year of experience across Manual Testing, API Testing, Functional Testing and Business Analysis. Handles end-to-end testing for web and mobile applications — requirement analysis, client communication, and defect management. Based in Chennai, Tamil Nadu."
 };
 
 export const skillCategories = [

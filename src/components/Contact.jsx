@@ -167,7 +167,7 @@ export default function Contact() {
             Let's Connect & <span className="text-gradient">Collaborate</span>
           </h2>
           <p className="text-slate-400 text-base sm:text-lg">
-            Looking for a meticulous Quality Analyst to strengthen your software testing? Drop me a message or reach out directly.
+            Looking for a meticulous Software Tester and QA Analyst to strengthen your software testing? Drop me a message or reach out directly.
           </p>
         </div>
 

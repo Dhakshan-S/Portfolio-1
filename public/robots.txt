@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Production sitemap URL (Update domain below if hosted on custom domain)
+Sitemap: https://dhakshan-s.github.io/Portfolio-1/sitemap.xml

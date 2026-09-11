@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Homepage containing all core portfolio sections (Hero, About, Skills, Experience, Projects, Contact) -->
+  <url>
+    <loc>https://dhakshan-s.github.io/Portfolio-1/</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <!-- Public Resume Asset -->
+  <url>
+    <loc>https://dhakshan-s.github.io/Portfolio-1/Dhakshan-Resume.pdf</loc>
+    <lastmod>2026-09-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>
