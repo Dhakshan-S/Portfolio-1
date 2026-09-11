@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Homepage containing all core portfolio sections (Hero, About, Skills, Experience, Projects, Contact) -->
+  <!-- Primary Homepage Route (Hero, About, Skills, Experience, Projects, Contact) -->
   <url>
-    <loc>https://dhakshan-s.github.io/Portfolio-1/</loc>
+    <loc>https://dhakshan.vercel.app/</loc>
     <lastmod>2026-09-11</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- Public Resume Asset -->
+  <!-- Public Resume Document on Vercel domain -->
   <url>
-    <loc>https://dhakshan-s.github.io/Portfolio-1/Dhakshan-Resume.pdf</loc>
+    <loc>https://dhakshan.vercel.app/Dhakshan-Resume.pdf</loc>
     <lastmod>2026-09-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

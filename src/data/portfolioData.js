@@ -7,7 +7,7 @@ export const personalDetails = {
   phone: "+91 8610188861",
   linkedin: "https://linkedin.com/in/dhakshan-s-660754286",
   github: "https://github.com/Dhakshan-S",
-  portfolioUrl: "https://dhakshan-s.github.io/Portfolio-1",
+  portfolioUrl: "https://dhakshan.vercel.app/",
   experienceYears: "1+",
   projectsCount: "25+",
   ownedProjects: "5",
